@@ -1,0 +1,7 @@
+version: '3.8'
+services:
+  myredi-standalone:
+    container_name: "myredis-serive"
+    image: "redis:latest"
+    ports:
+      - "6379:6379"
