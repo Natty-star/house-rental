@@ -29,12 +29,12 @@ class PaypalServiceTest {
     void canPay() {
         //given
         PaymentMethod paymentMethod = new PaymentMethod(
-                PaymentType.CC,
+                PaymentType.PAYPAL,
                 null,
                 null,
-                "CC123",
-                "543",
-                null
+                null,
+                null,
+                "paymentmethod@paypal.com"
         );
         Paypal paypal = new Paypal(
                 "example@domain.com",
