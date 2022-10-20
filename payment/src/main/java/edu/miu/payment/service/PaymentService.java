@@ -62,30 +62,30 @@ public class PaymentService {
         paymentRequest.setPaymentMethod(newPaymentMethod);
 
 //        String s = restTemplate.postForObject("http://localhost:"+uri,paymentRequest,String.class);
-       String s =
+       Mono<String> s =
         this.webClient.build()
                 .post()
                 .uri("http://localhost:"+uri)
                 .body(Mono.just(paymentRequest),PaymentRequest.class)
                 .retrieve()
-                .bodyToMono(String.class)
-                .block();
-        if(s != null){
-            log.info("Payment made by email {}, with reservation ID {}, and Payment Type {} was successful",
-                    paymentRequest.getEmail(),
-                    paymentRequest.getReservationId(),
-                    paymentRequest.getPaymentMethod().getPaymentType()
-            );
-            return "Payment success";
-        }
-        else {
-            log.warn("Error has occurred with paymentType {}, user with email {}",
-                    paymentRequest.getPaymentMethod().getPaymentType(),
-                    paymentRequest.getEmail()
-                    );
-            return "Error occurred with payment";
-        }
+                .bodyToMono(String.class);
+       s.subscribe(s1 -> {
+           if(s1.equals("Saved")){
+               log.info("Payment made by email {}, with reservation ID {}, and Payment Type {} was successful",
+                       paymentRequest.getEmail(),
+                       paymentRequest.getReservationId(),
+                       paymentRequest.getPaymentMethod().getPaymentType()
+               );
+           }
+           else {
+               log.warn("Error has occurred with paymentType {}, user with email {}",
+                       paymentRequest.getPaymentMethod().getPaymentType(),
+                       paymentRequest.getEmail()
+               );
+           }
+       });
 
+       return "Payment in Process";
 
     }
 

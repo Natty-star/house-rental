@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import reactor.core.publisher.Mono;
 
 @RestController
 public class BankController {
@@ -17,7 +18,7 @@ public class BankController {
     BankService bankService;
 
     @PostMapping
-    public String pay(@RequestBody Bank bank){
+    public Mono<String> pay(@RequestBody Bank bank){
         return bankService.pay(bank);
     }
 
