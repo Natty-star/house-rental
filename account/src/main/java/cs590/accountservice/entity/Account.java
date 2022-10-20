@@ -41,7 +41,7 @@ public class Account {
     @JsonIgnore
     private List<PaymentMethod> paymentMethods;
 
-    public Account(String firstName, String lastName, String email, String password, List<Role> roles, Address address, PaymentType preferredPayment) {
+    public Account(String firstName, String lastName, String email, String password, List<Role> roles, Address address, PaymentType preferredPayment, List<PaymentMethod> paymentMethods) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -49,6 +49,7 @@ public class Account {
         this.address = address;
         this.roles = roles;
         this.preferredPayment = preferredPayment;
+        this.paymentMethods = paymentMethods;
     }
 
     public AuthResponse getAuthResponse(){

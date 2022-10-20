@@ -68,14 +68,6 @@ public class AccountServiceImp implements AccountService {
         return  mongoTemplate.findAndModify(query, update , Account.class);
     }
 
-    public boolean deleteAccount(String email) {
-        Account account =accountRepository.findAccountByEmail(email);
-        if(account != null){
-            return  accountRepository.deleteAccountByEmail(email);
-        }
-        return false;
-    }
-
     public Account getAccount(String email, String password) {
 //        Account account = accountRepository.findAccountByEmailAndPassword(email, password);
         Account account = accountRepository.findAccountByEmail(email);
@@ -96,38 +88,12 @@ public class AccountServiceImp implements AccountService {
         return null;
     }
 
-    public Address updateAddress(String email, Address address) {
-        Account account = this.accountRepository.findAccountByEmail(email);
-        if (account != null) {
-            account.setAddress(address);
-            this.accountRepository.save(account);
-            return account.getAddress();
-        }
-        return null;
-    }
-
-    public Address getAddress(String email) {
-        Account account = this.accountRepository.findAccountByEmail(email);
-        return account != null ? account.getAddress() : null;
-    }
-
     public String getPreferredPayment(String email) {
         Account account = this.accountRepository.findAccountByEmail(email);
         if (account != null) {
            return account.getPreferredPayment().toString();
         }
         return null;
-    }
-
-    public Boolean updatePreferredPayment(String email, PaymentType paymentType) {
-       Account account = this.accountRepository.findAccountByEmail(email);
-        if (account != null) {
-             account.setPreferredPayment(paymentType);
-             accountRepository.save(account);
-             return  true;
-        }
-
-        return false;
     }
 
     public PaymentMethod getPaymentDetail(String email, PaymentType paymentType) {
@@ -146,5 +112,4 @@ public class AccountServiceImp implements AccountService {
         }
         return null;
     }
-
 }

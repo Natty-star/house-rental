@@ -25,7 +25,7 @@ public class CommandRunner implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         Address address = new Address("US","IA","FAIRFIELD", "52557", "1000 N Street");
-        Account account = new Account("Selam", "yilma",  "selu@gmail.com", "1234", null, address, PaymentType.BANK);
+        Account account = new Account("Selam", "yilma",  "selu@gmail.com", "1234", null, address, PaymentType.BANK, null);
 
 
         PaymentMethod method = new PaymentMethod(
