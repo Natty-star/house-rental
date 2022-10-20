@@ -7,6 +7,10 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class CreditCardController {
+    public CreditCardController(CreditCardService creditCardService) {
+        this.creditCardService = creditCardService;
+    }
+
     @Autowired
     CreditCardService creditCardService;
 
