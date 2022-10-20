@@ -1,0 +1,25 @@
+version: '3.8'
+services:
+  mysql-standalone:
+    image: 'mysql'
+    environment:
+      - MYSQL_ROOT_PASSWORD=cs590
+      - MYSQL_DATABASE=batch
+      - MYSQL_USER=sa
+      - MYSQL_PASSWORD=cs590
+    ports:
+      - "3307:3306"
+    expose:
+      - "3306"
+  springboot-docker-container:
+    image: spring-batch-image
+    ports:
+      - "8081:8081"
+    restart: unless-stopped
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-standalone:3306/batch?createDatabaseIfNotExist=true
+    build: .
+    depends_on:
+      - mysql-standalone
+
+
