@@ -4,6 +4,7 @@ import edu.miu.creditcard.entity.CreditCard;
 import edu.miu.creditcard.repository.CreditCardRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Mono;
 
 @Service
 public class CreditCardService {
@@ -14,10 +15,10 @@ public class CreditCardService {
     @Autowired
     CreditCardRepo cardRepo;
 
-    public String pay(CreditCard card){
+    public Mono<String> pay(CreditCard card){
         cardRepo.insert(card);
         System.out.println("Credit card service " + card);
-        return "Saved";
+        return Mono.just("Saved");
     }
 
 }
