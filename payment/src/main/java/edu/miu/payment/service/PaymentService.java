@@ -62,8 +62,8 @@ public class PaymentService {
         paymentRequest.setPaymentMethod(newPaymentMethod);
 
         String s = restTemplate.postForObject("http://localhost:"+uri,paymentRequest,String.class);
-//        var s =
-//        webClient.build()
+//       return
+//        this.webClient.build()
 //                .post()
 //                .uri("http://localhost:"+uri)
 //                .body(newPaymentMethod,PaymentMethod.class)

@@ -7,11 +7,15 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class PaypalService {
+    public PaypalService(PaypalRepo paypalRepo) {
+        this.paypalRepo = paypalRepo;
+    }
+
     @Autowired
-    PaypalRepo cardRepo;
+    PaypalRepo paypalRepo;
 
     public String pay(Paypal paypal){
-        cardRepo.insert(paypal);
+        paypalRepo.insert(paypal);
         System.out.println("Paypal service" + paypal);
         return "Saved";
     }
