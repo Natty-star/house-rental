@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: paymentmap
+data:
+  cc: creditcard-service:8089
+  bank: bank-service:8091
+  paypal: paypal-service:8090
+  
