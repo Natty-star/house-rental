@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
 import java.util.Map;
 
@@ -28,7 +29,6 @@ public class PaymentService {
 
 
     public String processPayment(PaymentRequest paymentRequest){
-        System.out.println(paymentRequest);
         PaymentMethod newPaymentMethod = new PaymentMethod();
 
         if(paymentRequest.getPaymentMethod() != null){
@@ -61,15 +61,15 @@ public class PaymentService {
         var uri = paymentMap.get(newPaymentMethod.getPaymentType().toString());
         paymentRequest.setPaymentMethod(newPaymentMethod);
 
-        String s = restTemplate.postForObject("http://localhost:"+uri,paymentRequest,String.class);
-//       return
-//        this.webClient.build()
-//                .post()
-//                .uri("http://localhost:"+uri)
-//                .body(newPaymentMethod,PaymentMethod.class)
-//                .retrieve()
-//                .bodyToMono(String.class)
-//                .block();
+//        String s = restTemplate.postForObject("http://localhost:"+uri,paymentRequest,String.class);
+       String s =
+        this.webClient.build()
+                .post()
+                .uri("http://localhost:"+uri)
+                .body(Mono.just(paymentRequest),PaymentRequest.class)
+                .retrieve()
+                .bodyToMono(String.class)
+                .block();
         if(s != null){
             log.info("Payment made by email {}, with reservation ID {}, and Payment Type {} was successful",
                     paymentRequest.getEmail(),
