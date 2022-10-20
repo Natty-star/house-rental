@@ -1,6 +1,7 @@
 package edu.miu.property.controller;
 
 import edu.miu.property.dto.PropertyRequest;
+import edu.miu.property.dto.ReservationResponse;
 import edu.miu.property.dto.UpdateDto;
 import edu.miu.property.model.Address;
 import edu.miu.property.model.Property;
@@ -26,7 +27,7 @@ public class PropertyController {
 //    }
 
     @PostMapping("/updateStatus")
-    public String update(@RequestParam String id){
+    public String update(@RequestBody String id){
         return propertyService.update(id);
     }
 
@@ -45,7 +46,6 @@ public class PropertyController {
             @RequestPart("userEmail") String userEmail,
             @RequestPart("latitude") String latitude,
             @RequestPart("longitude") String longitude
-
 
             //Address
             ,@RequestPart("city") String city
@@ -68,7 +68,7 @@ public class PropertyController {
 //    }
 
     @GetMapping("/{id}")
-    public Property getProperty(@PathVariable String id){
+    public ReservationResponse getProperty(@PathVariable String id){
         return propertyService.getProperty(id);
     }
 

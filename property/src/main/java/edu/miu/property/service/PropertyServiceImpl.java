@@ -5,6 +5,7 @@ import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.fasterxml.jackson.databind.annotation.JsonAppend;
 import edu.miu.property.dto.PropertyRequest;
+import edu.miu.property.dto.ReservationResponse;
 import edu.miu.property.dto.UpdateDto;
 import edu.miu.property.model.Property;
 import edu.miu.property.repository.PropertyRepo;
@@ -72,9 +73,15 @@ public class PropertyServiceImpl implements Propertyservice{
     }
 
     @Cacheable
-    public Property getProperty(String id){
+    public ReservationResponse getProperty(String id){
         Property p = propertyRepo.findById(id).get();
-        return p;
+        ReservationResponse response= ReservationResponse.builder()
+                .propertyTitle(p.getTitle())
+                .propertyName(p.getPropertyName())
+                .userEmail(p.getUserEmail())
+                .price(p.getPrice()).build();
+
+        return response;
     }
 
 //    public List<Property> getAll(){

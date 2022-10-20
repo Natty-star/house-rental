@@ -1,6 +1,7 @@
 package edu.miu.property.service;
 
 import edu.miu.property.dto.PropertyRequest;
+import edu.miu.property.dto.ReservationResponse;
 import edu.miu.property.dto.UpdateDto;
 import edu.miu.property.model.Property;
 import org.springframework.web.multipart.MultipartFile;
@@ -11,7 +12,7 @@ public interface Propertyservice {
 
     String add(PropertyRequest propertyRequest, List<MultipartFile> images, Double latitude, Double longitude);
     String update(String id);
-    Property getProperty(String id);
+    ReservationResponse getProperty(String id);
 //    List<Property> getAll();
 
     String uploadFile(MultipartFile file);
