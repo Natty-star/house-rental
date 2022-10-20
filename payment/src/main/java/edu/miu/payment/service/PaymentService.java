@@ -38,10 +38,23 @@ public class PaymentService {
         } else if (paymentRequest.getPaymentMethod() == null) {
             if(paymentRequest.getPaymentType() != null){
                 // call userService to get payment method
+//                newPaymentMethod =
+//                        restTemplate.getForObject(
+//                        "localhost:8083/accounts/preferredPaymentMethod/" +
+//                        paymentRequest.getEmail() + "/" +
+//                        paymentRequest.getPaymentType(),
+//                        PaymentMethod.class
+//                );
                 newPaymentMethod = getByType(paymentRequest.getPaymentType());
             }
             else {
                 // call userService to get default payment method
+//                newPaymentMethod =
+//                restTemplate.getForObject(
+//                            "localhost:8083/accounts/preferredPaymentMethod/" +
+//                                 paymentRequest.getEmail(),
+//                                 PaymentMethod.class
+//                );
                 newPaymentMethod = getByType(null);
             }
         }
@@ -72,7 +85,6 @@ public class PaymentService {
                     );
             return "Error occurred with payment";
         }
-
 
 
     }
