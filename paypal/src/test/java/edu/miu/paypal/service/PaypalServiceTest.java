@@ -38,8 +38,8 @@ class PaypalServiceTest {
         );
         Paypal paypal = new Paypal(
                 "example@domain.com",
-                "",
-                "",
+                "propertyId234242",
+                "reserve234313",
                 500d,
                 paymentMethod
 
