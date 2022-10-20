@@ -12,17 +12,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/accounts")
+@RequestMapping("/api/accounts")
 public class AccountController {
     @Autowired
     private AccountService accountService;
-
-
-    @PostMapping("/check")
-    public Boolean checkUser(@RequestBody AuthRequest authRequest) {
-        Account account = accountService.getAccount(authRequest.getUsername(), authRequest.getPassword());
-        return account != null;
-    }
 
     @PostMapping("/authenticate")
     public ResponseEntity<AuthResponse> authenticate(@RequestBody AuthRequest authRequest) throws Exception {
@@ -58,20 +51,19 @@ public class AccountController {
         return ResponseEntity.ok(updatedAccount);
     }
 
-    @DeleteMapping(path = "/{accountId}")
-    public ResponseEntity<?> deleteAccount(@PathVariable String accountId) {
-        if (!accountService.deleteAccount(accountId)) {
-            return new ResponseEntity<>("Account not found!", HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>("Successful", HttpStatus.OK);
-    }
+//    @DeleteMapping(path = "/{accountId}")
+//    public ResponseEntity<?> deleteAccount(@PathVariable String accountId) {
+//        if (!accountService.deleteAccount(accountId)) {
+//            return new ResponseEntity<>("Account not found!", HttpStatus.NOT_FOUND);
+//        }
+//        return new ResponseEntity<>("Successful", HttpStatus.OK);
+//    }
 
-
-    @GetMapping(path = "/address/{email}")
-    public ResponseEntity<?> getAddress(@PathVariable String email) {
-        Address address = accountService.getAddress(email);
-        return ResponseEntity.ok(address);
-    }
+//    @GetMapping(path = "/address/{email}")
+//    public ResponseEntity<?> getAddress(@PathVariable String email) {
+//        Address address = accountService.getAddress(email);
+//        return ResponseEntity.ok(address);
+//    }
 
     @PostMapping("/addPaymentMethod/{email}")
     public ResponseEntity<?> addPaymentMethod(@PathVariable String email, @RequestBody PaymentMethod payment) {
@@ -85,11 +77,11 @@ public class AccountController {
         return ResponseEntity.ok(type);
     }
 
-    @PutMapping(path = "/updatePreferredPaymentType/{email}/{paymentType}")
-    public ResponseEntity<Boolean> getPreferredPaymentType(@PathVariable String email,  @PathVariable  PaymentType paymentType) {
-        Boolean response = accountService.updatePreferredPayment(email,paymentType );
-        return ResponseEntity.ok(response);
-    }
+//    @PutMapping(path = "/updatePreferredPaymentType/{email}/{paymentType}")
+//    public ResponseEntity<Boolean> getPreferredPaymentType(@PathVariable String email,  @PathVariable  PaymentType paymentType) {
+//        Boolean response = accountService.updatePreferredPayment(email,paymentType );
+//        return ResponseEntity.ok(response);
+//    }
 
 
     @GetMapping(path = "/preferredPaymentMethod/{email}")
@@ -103,17 +95,5 @@ public class AccountController {
         PaymentMethod method = accountService.getPaymentDetail(email, paymentType );
         return ResponseEntity.ok(method);
     }
-
-//    @PostMapping("/addBankPaymentMethod/{accountId}")
-//    public ResponseEntity<?> addBankAccount(@PathVariable String accountId, @RequestBody PaymentMethod bankPayment) {
-//        PaymentMethod paymentMethod= accountService.addBankMethod(accountId,bankPayment);
-//        return new ResponseEntity<>(paymentMethod, HttpStatus.CREATED);
-//    }
-//
-//    @PostMapping("/addCCPaymentMethod/{accountId}")
-//    public ResponseEntity<?> addCCAccount(@PathVariable String accountId, @RequestBody PaymentMethod ccPayment) {
-//        PaymentMethod paymentMethod= accountService.addCCMethod(accountId, ccPayment);
-//        return new ResponseEntity<>(paymentMethod, HttpStatus.CREATED);
-//    }
 
 }
