@@ -9,6 +9,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class BankController {
+    public BankController(BankService bankService) {
+        this.bankService = bankService;
+    }
+
     @Autowired
     BankService bankService;
 
