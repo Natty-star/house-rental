@@ -65,7 +65,7 @@ public class PaymentService {
        Mono<String> s =
         this.webClient.build()
                 .post()
-                .uri("http://localhost:"+uri)
+                .uri("http://"+uri)
                 .body(Mono.just(paymentRequest),PaymentRequest.class)
                 .retrieve()
                 .bodyToMono(String.class);
