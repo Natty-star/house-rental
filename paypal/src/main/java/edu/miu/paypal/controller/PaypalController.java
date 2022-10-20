@@ -9,6 +9,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class PaypalController {
+    public PaypalController(PaypalService paypalService) {
+        this.paypalService = paypalService;
+    }
+
     @Autowired
     PaypalService paypalService;
 
