@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: payment-deployment
+  labels:
+    app: payment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: payment
+  template:
+    metadata:
+      labels:
+        app: payment
+    spec:
+      containers:
+      - name: payment
+        image: zedagem/payment:v1
+        imagePullPolicy: "IfNotPresent"
+        ports:
+        - containerPort: 8086 # port to access the app in the container 
+        env: #setting enviromental variable for the container
+          - name: cc
+            valueFrom:
+              configMapKeyRef:
+                name: paymentmap
+                key: cc
+          - name: bank
+            valueFrom:
+              configMapKeyRef:
+                name: paymentmap
+                key: bank      
+          - name: paypal
+            valueFrom:
+              configMapKeyRef:
+                name: paymentmap
+                key: paypal 
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: payment-service
+spec:
+  selector:
+    app: payment
+  # type: NodePort # LoadBalancer for or NodePort external service
+  ports:
+    - protocol: TCP
+      port: 8086 # port to access the pod 
+      targetPort: 8086 # must be the same as the containerPort 
+      # nodePort: 30200 ## for external service port

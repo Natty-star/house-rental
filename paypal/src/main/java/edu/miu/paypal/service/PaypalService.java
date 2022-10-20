@@ -4,16 +4,21 @@ import edu.miu.paypal.entity.Paypal;
 import edu.miu.paypal.repository.PaypalRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Mono;
 
 @Service
 public class PaypalService {
-    @Autowired
-    PaypalRepo cardRepo;
+    public PaypalService(PaypalRepo paypalRepo) {
+        this.paypalRepo = paypalRepo;
+    }
 
-    public String pay(Paypal paypal){
-        cardRepo.insert(paypal);
+    @Autowired
+    PaypalRepo paypalRepo;
+
+    public Mono<String> pay(Paypal paypal){
+        paypalRepo.insert(paypal);
         System.out.println("Paypal service" + paypal);
-        return "Saved";
+        return Mono.just("Saved");
     }
 
 }

@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bank-deployment
+  labels:
+    app: bank
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bank
+  template:
+    metadata:
+      labels:
+        app: bank
+    spec:
+      containers:
+      - name: bank
+        image: zedagem/bank:v1
+        imagePullPolicy: "IfNotPresent"
+        ports:
+        - containerPort: 8091 # port to access the app in the container 
+        env: #setting enviromental variable for the container
+          - name: DB_USERNAME
+            valueFrom:
+                secretKeyRef:
+                  name: vault
+                  key: DB_USER_NAME
+          - name: DB_PASSWORD
+            valueFrom:
+                secretKeyRef:
+                  name: vault
+                  key: DB_PASSWORD
+          - name: DB_NAME
+            value: bank
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: bank-service
+spec:
+  selector:
+    app: bank
+  # type: NodePort # LoadBalancer for or NodePort external service
+  ports:
+    - protocol: TCP
+      port: 8091 # port to access the pod 
+      targetPort: 8091 # must be the same as the containerPort 
+      # nodePort: 30200 ## for external service port

@@ -14,4 +14,12 @@ public class CreditCard {
     private String reservationId;
     private Double totalAmount;
     private PaymentMethod paymentMethod;
+
+    public CreditCard(String email, String propertyId, String reservationId, Double totalAmount, PaymentMethod paymentMethod) {
+        this.email = email;
+        this.propertyId = propertyId;
+        this.reservationId = reservationId;
+        this.totalAmount = totalAmount;
+        this.paymentMethod = paymentMethod;
+    }
 }

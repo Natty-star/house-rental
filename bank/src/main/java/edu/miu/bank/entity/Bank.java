@@ -15,5 +15,11 @@ public class Bank {
     private Double totalAmount;
     private PaymentMethod paymentMethod;
 
-
+    public Bank(String email, String propertyId, String reservationId, Double totalAmount, PaymentMethod paymentMethod) {
+        this.email = email;
+        this.propertyId = propertyId;
+        this.reservationId = reservationId;
+        this.totalAmount = totalAmount;
+        this.paymentMethod = paymentMethod;
+    }
 }

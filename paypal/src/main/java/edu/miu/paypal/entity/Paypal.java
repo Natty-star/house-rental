@@ -16,4 +16,11 @@ public class Paypal {
     private PaymentMethod paymentMethod;
 
 
+    public Paypal(String email, String propertyId, String reservationId, Double totalAmount, PaymentMethod paymentMethod) {
+        this.email = email;
+        this.propertyId = propertyId;
+        this.reservationId = reservationId;
+        this.totalAmount = totalAmount;
+        this.paymentMethod = paymentMethod;
+    }
 }

@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: creditcard-deployment
+  labels:
+    app: creditcard
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: creditcard
+  template:
+    metadata:
+      labels:
+        app: creditcard
+    spec:
+      containers:
+      - name: creditcard
+        image: zedagem/creditcard:v1
+        imagePullPolicy: "IfNotPresent"
+        ports:
+        - containerPort: 8089 # port to access the app in the container 
+        env: #setting enviromental variable for the container
+          - name: DB_USERNAME
+            valueFrom:
+                secretKeyRef:
+                  name: vault
+                  key: DB_USER_NAME
+          - name: DB_PASSWORD
+            valueFrom:
+                secretKeyRef:
+                  name: vault
+                  key: DB_PASSWORD
+          - name: DB_NAME
+            value: credit_card
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: creditcard-service
+spec:
+  selector:
+    app: creditcard
+  # type: NodePort # LoadBalancer for or NodePort external service
+  ports:
+    - protocol: TCP
+      port: 8089 # port to access the pod 
+      targetPort: 8089 # must be the same as the containerPort 
+      # nodePort: 30200 ## for external service port
