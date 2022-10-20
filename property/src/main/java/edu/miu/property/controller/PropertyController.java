@@ -2,6 +2,7 @@ package edu.miu.property.controller;
 
 import edu.miu.property.dto.PropertyRequest;
 import edu.miu.property.dto.ReservationResponse;
+import edu.miu.property.dto.ReservationStatusUpdate;
 import edu.miu.property.dto.UpdateDto;
 import edu.miu.property.model.Address;
 import edu.miu.property.model.Property;
@@ -27,8 +28,8 @@ public class PropertyController {
 //    }
 
     @PostMapping("/updateStatus")
-    public String update(@RequestBody String id){
-        return propertyService.update(id);
+    public String update(@RequestBody ReservationStatusUpdate reservationStatusUpdate){
+        return propertyService.update(reservationStatusUpdate);
     }
 
     @PostMapping("/updateProperty")
@@ -36,7 +37,7 @@ public class PropertyController {
         return propertyService.updateProperty(updateDto);
     }
 
-    @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE,MediaType.MULTIPART_FORM_DATA_VALUE})
+    @PostMapping(value = "/create",consumes = {MediaType.APPLICATION_JSON_VALUE,MediaType.MULTIPART_FORM_DATA_VALUE})
     public String saveProperty(
             @RequestPart("images") List<MultipartFile> images,
             @RequestPart("propertyName") String propertyName,
@@ -72,10 +73,10 @@ public class PropertyController {
         return propertyService.getProperty(id);
     }
 
-//    @GetMapping
-//    public List<Property> getAll(){
-//        return propertyService.getAll();
-//    }
+    @GetMapping("/getAll")
+    public List<Property> getAll(){
+        return propertyService.getAll();
+    }
 
 
 //    @PostMapping("/image")
