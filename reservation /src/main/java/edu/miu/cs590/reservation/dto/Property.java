@@ -12,11 +12,10 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Builder
 public class Property {
-    private String propertyId;
     private String userEmail;
     private double price;
     private String propertyName;
     private String propertyTitle;
-    private LocalDate startDate;
-    private LocalDate  endDate;
+//    private LocalDate startDate;
+//    private LocalDate  endDate;
 }

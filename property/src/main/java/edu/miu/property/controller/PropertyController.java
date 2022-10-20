@@ -26,7 +26,7 @@ public class PropertyController {
 //    }
 
     @PostMapping("/updateStatus")
-    public String update(@RequestParam String id){
+    public String update(@RequestBody String id){
         return propertyService.update(id);
     }
 

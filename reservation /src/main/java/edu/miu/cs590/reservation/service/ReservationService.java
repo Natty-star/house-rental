@@ -21,12 +21,12 @@ import java.util.List;
 public class ReservationService {
     @Autowired
     private ReservationRepository reservationRepository;
-    private static final String TOPIC = "reservation";
+//    private static final String TOPIC = "reservation";
     @Autowired
     private WebClient.Builder webClient;
 
-    @Autowired
-    KafkaTemplate<String,NotificationRequest> kafkaTemplate;
+//    @Autowired
+//    KafkaTemplate<String,NotificationRequest> kafkaTemplate;
 
     public void create(ReservationRequest reservationRequest){
         Property property = getProperty(reservationRequest.getPropertyId());
@@ -47,7 +47,7 @@ public class ReservationService {
         Reservation newReservation = reservationRepository.save(reservation);
 
         //Process property reservation
-        propertyReservation(property.getPropertyTitle());
+        propertyReservation(reservationRequest.getPropertyId());
 
 
 
@@ -82,7 +82,7 @@ public class ReservationService {
 
     private Property getProperty(String propertyId){
         Property property = webClient.build().get()
-                .uri("http://localhost:8085/api/product", uriBuilder -> uriBuilder.path("/{id}").build(propertyId))
+                .uri("http://localhost:8085/api/property", uriBuilder -> uriBuilder.path("/{id}").build(propertyId))
                 .retrieve()
                 .bodyToMono(Property.class)
                 .block();
@@ -92,7 +92,7 @@ public class ReservationService {
     private Mono<String> propertyReservation(String propertyId){
         Mono<String> propertyReservationResponse = webClient.build()
                 .post()
-                .uri("http://localhost:8085/api/product")
+                .uri("http://localhost:8085/api/property/updateStatus")
                 .body(propertyId,String.class)
                 .retrieve()
                 .bodyToMono(String.class);
@@ -111,11 +111,11 @@ public class ReservationService {
         return paymentResponse;
     }
 
-    private void sendToKafka(NotificationRequest notificationRequest){
-        kafkaTemplate.send(TOPIC,notificationRequest);
-        log.info("Notification sent");
-        //implement
-    }
+//    private void sendToKafka(NotificationRequest notificationRequest){
+//        kafkaTemplate.send(TOPIC,notificationRequest);
+//        log.info("Notification sent");
+//        //implement
+//    }
 
     public List<Reservation> getByUser(String userEmail){
         return reservationRepository.findByUserEmail(userEmail);

@@ -18,10 +18,10 @@ public class ReservationController {
     @Autowired
     private ReservationService reservationService;
 
-    @Autowired
-    KafkaTemplate<String,NotificationRequest> kafkaTemplate;
-
-    private static final String TOPIC = "natty";
+//    @Autowired
+//    KafkaTemplate<String,NotificationRequest> kafkaTemplate;
+//
+//    private static final String TOPIC = "natty";
 
     @PostMapping
     public String create(@RequestBody ReservationRequest reservationRequest){
@@ -34,11 +34,11 @@ public class ReservationController {
         return reservationService.getByUser(userEmail);
     }
 
-    @PostMapping("/publish")
-    public String testKafka(@RequestBody NotificationRequest notificationRequest){
-        kafkaTemplate.send(TOPIC,notificationRequest);
-        return "Published Successfully";
-    }
+//    @PostMapping("/publish")
+//    public String testKafka(@RequestBody NotificationRequest notificationRequest){
+//        kafkaTemplate.send(TOPIC,notificationRequest);
+//        return "Published Successfully";
+//    }
 
 
 
