@@ -11,9 +11,10 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Builder
 public class NotificationRequest {
-    private String userEmail;
+    private String guestUserEmail;
     private String propertyName;
     private String propertyTitle;
     private LocalDate startDate;
     private LocalDate  endDate;
+    private String hostUserEmail;
 }
