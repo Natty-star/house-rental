@@ -7,6 +7,10 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class BankService {
+    public BankService(BankRepo bankRepo) {
+        this.bankRepo = bankRepo;
+    }
+
     @Autowired
     BankRepo bankRepo;
 
