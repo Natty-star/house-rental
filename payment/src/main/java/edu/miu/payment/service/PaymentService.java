@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
 import java.util.Map;
 
@@ -28,7 +29,6 @@ public class PaymentService {
 
 
     public String processPayment(PaymentRequest paymentRequest){
-        System.out.println(paymentRequest);
         PaymentMethod newPaymentMethod = new PaymentMethod();
 
         if(paymentRequest.getPaymentMethod() != null){
@@ -38,42 +38,54 @@ public class PaymentService {
         } else if (paymentRequest.getPaymentMethod() == null) {
             if(paymentRequest.getPaymentType() != null){
                 // call userService to get payment method
+//                newPaymentMethod =
+//                        restTemplate.getForObject(
+//                        "localhost:8083/accounts/preferredPaymentMethod/" +
+//                        paymentRequest.getEmail() + "/" +
+//                        paymentRequest.getPaymentType(),
+//                        PaymentMethod.class
+//                );
                 newPaymentMethod = getByType(paymentRequest.getPaymentType());
             }
             else {
                 // call userService to get default payment method
+//                newPaymentMethod =
+//                restTemplate.getForObject(
+//                            "localhost:8083/accounts/preferredPaymentMethod/" +
+//                                 paymentRequest.getEmail(),
+//                                 PaymentMethod.class
+//                );
                 newPaymentMethod = getByType(null);
             }
         }
         var uri = paymentMap.get(newPaymentMethod.getPaymentType().toString());
         paymentRequest.setPaymentMethod(newPaymentMethod);
 
-        String s = restTemplate.postForObject("http://localhost:"+uri,paymentRequest,String.class);
-//        var s =
-//        webClient.build()
-//                .post()
-//                .uri("http://localhost:"+uri)
-//                .body(newPaymentMethod,PaymentMethod.class)
-//                .retrieve()
-//                .bodyToMono(String.class)
-//                .block();
-        if(s != null){
-            log.info("Payment made by email {}, with reservation ID {}, and Payment Type {} was successful",
-                    paymentRequest.getEmail(),
-                    paymentRequest.getReservationId(),
-                    paymentRequest.getPaymentMethod().getPaymentType()
-            );
-            return "Payment success";
-        }
-        else {
-            log.warn("Error has occurred with paymentType {}, user with email {}",
-                    paymentRequest.getPaymentMethod().getPaymentType(),
-                    paymentRequest.getEmail()
-                    );
-            return "Error occurred with payment";
-        }
+//        String s = restTemplate.postForObject("http://localhost:"+uri,paymentRequest,String.class);
+       Mono<String> s =
+        this.webClient.build()
+                .post()
+                .uri("http://localhost:"+uri)
+                .body(Mono.just(paymentRequest),PaymentRequest.class)
+                .retrieve()
+                .bodyToMono(String.class);
+       s.subscribe(s1 -> {
+           if(s1.equals("Saved")){
+               log.info("Payment made by email {}, with reservation ID {}, and Payment Type {} was successful",
+                       paymentRequest.getEmail(),
+                       paymentRequest.getReservationId(),
+                       paymentRequest.getPaymentMethod().getPaymentType()
+               );
+           }
+           else {
+               log.warn("Error has occurred with paymentType {}, user with email {}",
+                       paymentRequest.getPaymentMethod().getPaymentType(),
+                       paymentRequest.getEmail()
+               );
+           }
+       });
 
-
+       return "Payment in Process";
 
     }
 

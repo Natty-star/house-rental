@@ -6,14 +6,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import reactor.core.publisher.Mono;
 
 @RestController
 public class PaypalController {
+    public PaypalController(PaypalService paypalService) {
+        this.paypalService = paypalService;
+    }
+
     @Autowired
     PaypalService paypalService;
 
     @PostMapping
-    public String pay(@RequestBody Paypal paypal){
+    public Mono<String> pay(@RequestBody Paypal paypal){
         return paypalService.pay(paypal);
     }
 
