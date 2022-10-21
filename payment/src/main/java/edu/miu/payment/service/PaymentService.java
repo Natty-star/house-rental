@@ -38,53 +38,56 @@ public class PaymentService {
         } else if (paymentRequest.getPaymentMethod() == null) {
             if(paymentRequest.getPaymentType() != null){
                 // call userService to get payment method
-//                newPaymentMethod =
-//                        restTemplate.getForObject(
-//                        "localhost:8083/accounts/preferredPaymentMethod/" +
-//                        paymentRequest.getEmail() + "/" +
-//                        paymentRequest.getPaymentType(),
-//                        PaymentMethod.class
-//                );
-                newPaymentMethod = getByType(paymentRequest.getPaymentType());
+                newPaymentMethod =
+                        restTemplate.getForObject(
+                        "account-service:8083/api/accounts/preferredPaymentMethod/" +
+                        paymentRequest.getEmail() + "/" +
+                        paymentRequest.getPaymentType(),
+                        PaymentMethod.class
+                );
+//                newPaymentMethod = getByType(paymentRequest.getPaymentType());
             }
             else {
                 // call userService to get default payment method
-//                newPaymentMethod =
-//                restTemplate.getForObject(
-//                            "localhost:8083/accounts/preferredPaymentMethod/" +
-//                                 paymentRequest.getEmail(),
-//                                 PaymentMethod.class
-//                );
-                newPaymentMethod = getByType(null);
+                newPaymentMethod =
+                restTemplate.getForObject(
+                            "account-service:8083/api/accounts/preferredPaymentMethod/" +
+                                 paymentRequest.getEmail(),
+                                 PaymentMethod.class
+                );
+//                newPaymentMethod = getByType(null);
             }
         }
-        var uri = paymentMap.get(newPaymentMethod.getPaymentType().toString());
-        paymentRequest.setPaymentMethod(newPaymentMethod);
+
+        if(paymentMap != null) {
+          String uri = paymentMap.get(newPaymentMethod.getPaymentType().toString());
+
+
+            paymentRequest.setPaymentMethod(newPaymentMethod);
 
 //        String s = restTemplate.postForObject("http://localhost:"+uri,paymentRequest,String.class);
-       Mono<String> s =
-        this.webClient.build()
-                .post()
-                .uri("http://localhost:"+uri)
-                .body(Mono.just(paymentRequest),PaymentRequest.class)
-                .retrieve()
-                .bodyToMono(String.class);
-       s.subscribe(s1 -> {
-           if(s1.equals("Saved")){
-               log.info("Payment made by email {}, with reservation ID {}, and Payment Type {} was successful",
-                       paymentRequest.getEmail(),
-                       paymentRequest.getReservationId(),
-                       paymentRequest.getPaymentMethod().getPaymentType()
-               );
-           }
-           else {
-               log.warn("Error has occurred with paymentType {}, user with email {}",
-                       paymentRequest.getPaymentMethod().getPaymentType(),
-                       paymentRequest.getEmail()
-               );
-           }
-       });
-
+            Mono<String> s =
+                    this.webClient.build()
+                            .post()
+                            .uri("http://" + uri)
+                            .body(Mono.just(paymentRequest), PaymentRequest.class)
+                            .retrieve()
+                            .bodyToMono(String.class);
+            s.subscribe(s1 -> {
+                if (s1.equals("Saved")) {
+                    log.info("Payment made by email {}, with reservation ID {}, and Payment Type {} was successful",
+                            paymentRequest.getEmail(),
+                            paymentRequest.getReservationId(),
+                            paymentRequest.getPaymentMethod().getPaymentType()
+                    );
+                } else {
+                    log.warn("Error has occurred with paymentType {}, user with email {}",
+                            paymentRequest.getPaymentMethod().getPaymentType(),
+                            paymentRequest.getEmail()
+                    );
+                }
+            });
+        }
        return "Payment in Process";
 
     }

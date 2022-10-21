@@ -1,0 +1,21 @@
+
+mail:
+  default-encoding: UTF-8
+  host: smtp.gmail.com
+  username: estoreservice6@gmail.com
+  password: Abcd.1234
+  port: 587
+  properties:
+    mail:
+      smtp:
+        auth: true
+        starttls:
+          enable: true
+  protocol: smtp
+  test-connection: false
+
+spring:
+  kafka:
+    bootstrap-servers=localhost:9092:
+server:
+  port: 8087

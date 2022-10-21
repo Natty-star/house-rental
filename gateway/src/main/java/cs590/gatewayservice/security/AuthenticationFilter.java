@@ -54,9 +54,7 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
 
                 try {
                     TokenDto request = new TokenDto(authHeader);
-                    restTemplate.postForObject("http://localhost:8082/authentication/validateUser", request, Object.class);
-//                    System.out.println(response);
-//                    jwtTokenUtil.validateToken(authHeader);
+                    restTemplate.postForObject("http://auth-service:8082/api/authentication/validateUser", request, Object.class);
                 }
                 catch (Exception ex) {
                     log.error("Error Validating Authentication Header", ex);

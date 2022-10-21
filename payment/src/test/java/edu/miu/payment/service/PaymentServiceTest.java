@@ -42,6 +42,8 @@ class PaymentServiceTest {
         );
 
         //when
+          String response =  underTest.processPayment(paymentRequest);
+          assertEquals("Payment in Process",response);
 //        when(underTest.processPayment(paymentRequest)).thenReturn("Payment success");
 //        assertEquals("Payment success", underTest.processPayment(paymentRequest));
 

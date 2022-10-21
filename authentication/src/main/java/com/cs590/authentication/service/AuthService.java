@@ -1,4 +1,4 @@
-package com.cs590.authentication.security;
+package com.cs590.authentication.service;
 
 import com.cs590.authentication.exception.JwtTokenIncorrectStructureException;
 import com.cs590.authentication.exception.JwtTokenMalformedException;
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 
 @Service
-public class JwtUtil {
+public class AuthService {
 
     @Value("${secret}")
     private String key;

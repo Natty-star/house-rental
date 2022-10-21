@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth-service
+spec:
+  selector:
+    matchLabels:
+      app: auth-service
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: auth-service
+    spec:
+      containers:
+        - name: auth-service
+          image: syilma/authentication-img:v1
+          ports:
+            - containerPort: 8082
+          env:
+           - name: SIGN_KEY
+             valueFrom:
+                secretKeyRef:
+                  name: vault
+                  key: SIGN_KEY
+          
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: auth-service
+spec:
+  ports:
+    - protocol: "TCP"
+      port: 8082 
+      targetPort: 8082
+  selector:
+    app: auth-service
