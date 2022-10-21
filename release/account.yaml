@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: account-service
+spec:
+  selector:
+    matchLabels:
+      app: account-service
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: account-service
+    spec:
+      containers:
+        - name: account-service
+          image: syilma/account-img:v1
+          ports:
+            - containerPort: 8083
+          env: # Setting Environmental Variables
+            - name: DB_NAME 
+              value: account
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: vault
+                  key: DB_USER_NAME
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: vault
+                  key: DB_PASSWORD
+            - name: SIGN_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: vault
+                  key: SIGN_KEY
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: account-service
+spec:
+  ports:
+    - protocol: "TCP"
+      port: 8083 # Port inside the cluster
+      targetPort: 8083 # Port exposed to the outside
+  selector:
+    app: account-service

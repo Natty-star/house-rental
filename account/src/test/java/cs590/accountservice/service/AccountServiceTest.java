@@ -1,4 +1,4 @@
-package cs590.accountservice;
+package cs590.accountservice.service;
 
 
 import cs590.accountservice.entity.*;
