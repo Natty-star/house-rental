@@ -31,7 +31,7 @@ public class KafkaListener {
         emailService.sendHtmlEmail(req.getGustUserEmail(),"Booking Conformation",new EmailTemplate().gustEmailTemplate(req));
         emailService.sendHtmlEmail(req.getHostUserEmail(),"New Booking",new EmailTemplate().hostEmailTemplate(req));
 
-        log.info("email sent for request ",req);
+        log.info("email sent for request ",req.getGustUserEmail(), req.getHostUserEmail());
 
     }
 

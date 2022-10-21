@@ -9,6 +9,9 @@ import edu.miu.cs590.reservation.repository.ReservationRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.kafka.support.KafkaHeaders;
+import org.springframework.messaging.Message;
+import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
@@ -27,57 +30,56 @@ public class ReservationService {
 
     @Autowired
     KafkaTemplate<String,NotificationRequest> kafkaTemplate;
-    private static final String TOPIC = "reservation";
+    private static final String TOPIC = "notification";
 
     public void create(ReservationRequest reservationRequest){
         Property property = getProperty(reservationRequest.getPropertyId());
-//        Property property = webClient.build().get()
-//                .uri("http://localhost:8085/api/product", uriBuilder -> uriBuilder.path("/{id}").build(reservationRequest.getPropertyId()))
-//                .retrieve()
-//                .bodyToMono(Property.class)
-//                .block();
 
-        Reservation reservation = Reservation.builder()
+        if (!property.isStatus()){
+            Reservation reservation = Reservation.builder()
+                    .propertyId(reservationRequest.getPropertyId())
+                    .userEmail(reservationRequest.getUserEmail())
+                    .startDate(reservationRequest.getStartDate())
+                    .endDate(reservationRequest.getEndDate())
+                    .price(ChronoUnit.DAYS.between(reservationRequest.getStartDate(),reservationRequest.getEndDate()) * property.getPrice())
+                    .build();
+
+            Reservation newReservation = reservationRepository.save(reservation);
+
+            //Process property reservation
+            Mono<String> propertyReserved = propertyReservation(reservationRequest.getPropertyId());
+
+        PaymentRequest paymentRequest = PaymentRequest.builder()
+                .totalAmount(newReservation.getPrice())
+                .reservationId(newReservation.getId())
+                .paymentMethod(reservationRequest.getPaymentMethod())
+                .paymentType(reservationRequest.getPaymentType())
                 .propertyId(reservationRequest.getPropertyId())
-                .userEmail(reservationRequest.getUserEmail())
-                .startDate(reservationRequest.getStartDate())
-                .endDate(reservationRequest.getEndDate())
-                .price(ChronoUnit.DAYS.between(reservationRequest.getStartDate(),reservationRequest.getEndDate()) * 10)
+                .email(reservationRequest.getUserEmail())
                 .build();
 
-        Reservation newReservation = reservationRepository.save(reservation);
-
-        //Process property reservation
-        Mono<String> propertyReserved = propertyReservation(reservationRequest.getPropertyId());
-
+        //send to payment
+        Mono<String> paymentResp = payment(paymentRequest);
+//        log.info(paymentResp.block());
 
 
+            NotificationRequest notificationRequest = NotificationRequest.builder()
+                    .gustUserEmail(reservationRequest.getUserEmail())
+                    .hostUserEmail(property.getUserEmail())
+                    .propertyName(property.getPropertyName())
+                    .propertyTitle(property.getPropertyTitle())
+                    .startDate(reservationRequest.getStartDate().toString())
+                    .endDate(reservationRequest.getEndDate().toString())
+                    .build();
+
+            // messaging to kafka
+            sendToKafka(notificationRequest);
+
+        }else {
+            log.info("The house already reserved");
+        }
 
 
-//        PaymentRequest paymentRequest = PaymentRequest.builder()
-//                .paymentAmount(newReservation.getPrice())
-//                .reservationId(newReservation.getId())
-//                .paymentMethod(reservationRequest.getPaymentMethod())
-//                .paymentType(reservationRequest.getPaymentType())
-//                .propertyId(reservationRequest.getPropertyId())
-//                .userEmail(reservationRequest.getUserEmail())
-//                .build();
-//
-//        String paymentResp = payment(paymentRequest);
-//        log.info(paymentResp);
-//
-
-        NotificationRequest notificationRequest = NotificationRequest.builder()
-                .hostUserEmail(reservationRequest.getUserEmail())
-                .guestUserEmail(property.getUserEmail())
-                .propertyTitle(property.getPropertyTitle())
-                .propertyName(property.getPropertyName())
-                .startDate(reservationRequest.getStartDate())
-                .endDate(reservationRequest.getEndDate())
-                .build();
-
-        //messaging to kafka
-        sendToKafka(notificationRequest);
 
 
     }
@@ -89,7 +91,6 @@ public class ReservationService {
                 .bodyToMono(Property.class)
                 .block();
         return property;
-
     }
     private Mono<String> propertyReservation(String propertyId){
         Mono<String> propertyReservationResponse = webClient.build()
@@ -105,8 +106,8 @@ public class ReservationService {
 
     private Mono<String> payment(PaymentRequest paymentRequest){
         Mono<String> paymentResponse = webClient.build().post()
-                .uri("http://localhost:8086/payment")
-                .body(paymentRequest, PaymentRequest.class)
+                .uri("http://localhost:8086/payments/pay")
+                .body(Mono.just(paymentRequest), PaymentRequest.class)
                 .retrieve()
                 .bodyToMono(String.class);
 
@@ -114,9 +115,14 @@ public class ReservationService {
     }
 
     private void sendToKafka(NotificationRequest notificationRequest){
-        kafkaTemplate.send(TOPIC,notificationRequest);
+        Message<NotificationRequest> message = MessageBuilder
+                .withPayload(notificationRequest)
+                .setHeader(KafkaHeaders.TOPIC, "notification")
+                .build();
+        kafkaTemplate.send(message);
+        //kafkaTemplate.send(TOPIC,notificationRequest);
         log.info("Notification sent");
-        //implement
+
     }
 
     public List<Reservation> getByUser(String userEmail){

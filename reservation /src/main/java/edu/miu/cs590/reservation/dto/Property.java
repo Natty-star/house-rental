@@ -16,6 +16,5 @@ public class Property {
     private double price;
     private String propertyName;
     private String propertyTitle;
-//    private LocalDate startDate;
-//    private LocalDate  endDate;
+    private boolean status;
 }
