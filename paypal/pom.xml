@@ -76,7 +76,7 @@
 					</execution>
 				</executions>
 				<configuration>
-					<repository>dailycodebuffer/department-service</repository>
+					<repository>nattystar/paypal</repository>
 					<tag>${project.version}</tag>
 					<useMavenSettingsForAuth>true</useMavenSettingsForAuth>
 				</configuration>
