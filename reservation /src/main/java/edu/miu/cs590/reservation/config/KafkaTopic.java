@@ -18,27 +18,27 @@ import java.util.Map;
 
 @Configuration
 public class KafkaTopic {
-//    @Value("${spring.kafka.bootstrap-servers}")
+    @Value("${spring.kafka.bootstrap-servers}")
     private String bootstrapServers;
 
-//    @Bean
-//    public ProducerFactory<String, NotificationRequest> producerFactory(){
-//        Map<String,Object> config = new HashMap<>();
-////        config.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
-//        config.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
-//        config.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
-//
-//        return new DefaultKafkaProducerFactory<>(config);
-//    }
+    @Bean
+    public ProducerFactory<String, NotificationRequest> producerFactory(){
+        Map<String,Object> config = new HashMap<>();
+        config.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
+        config.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+        config.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
 
-//    @Bean
-//    public NewTopic testTopic(){
-//        return TopicBuilder.name("reservation").build();
-//    }
-//
-//    @Bean
-//    public KafkaTemplate kafkaTemplate(){
-//        return new KafkaTemplate(producerFactory());
-//    }
+        return new DefaultKafkaProducerFactory<>(config);
+    }
+
+    @Bean
+    public NewTopic testTopic(){
+        return TopicBuilder.name("reservation").build();
+    }
+
+    @Bean
+    public KafkaTemplate kafkaTemplate(){
+        return new KafkaTemplate(producerFactory());
+    }
 
 }

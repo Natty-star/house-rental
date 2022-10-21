@@ -21,12 +21,13 @@ import java.util.List;
 public class ReservationService {
     @Autowired
     private ReservationRepository reservationRepository;
-//    private static final String TOPIC = "reservation";
+
     @Autowired
     private WebClient.Builder webClient;
 
-//    @Autowired
-//    KafkaTemplate<String,NotificationRequest> kafkaTemplate;
+    @Autowired
+    KafkaTemplate<String,NotificationRequest> kafkaTemplate;
+    private static final String TOPIC = "reservation";
 
     public void create(ReservationRequest reservationRequest){
         Property property = getProperty(reservationRequest.getPropertyId());
@@ -47,7 +48,8 @@ public class ReservationService {
         Reservation newReservation = reservationRepository.save(reservation);
 
         //Process property reservation
-        propertyReservation(reservationRequest.getPropertyId());
+        Mono<String> propertyReserved = propertyReservation(reservationRequest.getPropertyId());
+
 
 
 
@@ -65,17 +67,17 @@ public class ReservationService {
 //        log.info(paymentResp);
 //
 
-//        NotificationRequest notificationRequest = NotificationRequest.builder()
-//                .hostUserEmail(reservationRequest.getUserEmail())
-//                .guestUserEmail(property.getUserEmail())
-//                .propertyTitle(property.getPropertyTitle())
-//                .propertyName(property.getPropertyName())
-//                .startDate(reservationRequest.getStartDate())
-//                .endDate(reservationRequest.getEndDate())
-//                .build();
+        NotificationRequest notificationRequest = NotificationRequest.builder()
+                .hostUserEmail(reservationRequest.getUserEmail())
+                .guestUserEmail(property.getUserEmail())
+                .propertyTitle(property.getPropertyTitle())
+                .propertyName(property.getPropertyName())
+                .startDate(reservationRequest.getStartDate())
+                .endDate(reservationRequest.getEndDate())
+                .build();
 
         //messaging to kafka
-//        sendToKafka(notificationRequest);
+        sendToKafka(notificationRequest);
 
 
     }
@@ -93,7 +95,7 @@ public class ReservationService {
         Mono<String> propertyReservationResponse = webClient.build()
                 .post()
                 .uri("http://localhost:8085/api/property/updateStatus")
-                .body(propertyId,String.class)
+                .body(Mono.just(propertyId),String.class)
                 .retrieve()
                 .bodyToMono(String.class);
         log.info("Property reserved");
@@ -111,11 +113,11 @@ public class ReservationService {
         return paymentResponse;
     }
 
-//    private void sendToKafka(NotificationRequest notificationRequest){
-//        kafkaTemplate.send(TOPIC,notificationRequest);
-//        log.info("Notification sent");
-//        //implement
-//    }
+    private void sendToKafka(NotificationRequest notificationRequest){
+        kafkaTemplate.send(TOPIC,notificationRequest);
+        log.info("Notification sent");
+        //implement
+    }
 
     public List<Reservation> getByUser(String userEmail){
         return reservationRepository.findByUserEmail(userEmail);
