@@ -23,7 +23,7 @@ jobs:
         distribution: 'temurin'
         cache: maven
     - name: Build with Maven
-      working-directory: ./reservation
+      working-directory: reservation
       run: mvn clean install
 
     - name: Build & push Docker image
