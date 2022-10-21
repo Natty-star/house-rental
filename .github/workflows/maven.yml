@@ -23,8 +23,8 @@ jobs:
         distribution: 'temurin'
         cache: maven
     - name: Build with Maven
-      working-directory: reservation
-      run: mvn clean install
+    
+      run: mvn clean install --file reservation
 
     - name: Build & push Docker image
       uses: mr-smithers-excellent/docker-build-push@v5
