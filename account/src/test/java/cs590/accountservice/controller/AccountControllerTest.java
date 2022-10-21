@@ -1,4 +1,4 @@
-package cs590.accountservice;
+package cs590.accountservice.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import cs590.accountservice.DTO.AuthRequest;

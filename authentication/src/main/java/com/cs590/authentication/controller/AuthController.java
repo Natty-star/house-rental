@@ -1,7 +1,7 @@
 package com.cs590.authentication.controller;
 
 import com.cs590.authentication.model.*;
-import com.cs590.authentication.security.JwtUtil;
+import com.cs590.authentication.service.AuthService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,11 +14,11 @@ import java.util.Date;
 import java.util.List;
 
 @RestController
-@RequestMapping("/authentication")
+@RequestMapping("/api/authentication")
 public class AuthController {
 
     @Autowired
-    private JwtUtil jwtUtil;
+    private AuthService authService;
 
     @Autowired
     private RestTemplate restTemplate;
@@ -39,7 +39,7 @@ public class AuthController {
 
         String json = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(status.getData());
 
-        final String token = jwtUtil.generateToken(json);
+        final String token = authService.generateToken(json);
 
         return ResponseEntity.ok(new AutClientResponse(token));
     }
@@ -50,7 +50,7 @@ public class AuthController {
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<AuthRequest> request = new HttpEntity<AuthRequest>(authRequest, headers);
 
-        AuthResponse response = restTemplate.postForObject("http://localhost:8083/accounts/authenticate", request, AuthResponse.class);
+        AuthResponse response = restTemplate.postForObject("http://account-service:8083/api/accounts/authenticate", request, AuthResponse.class);
         System.out.println(response);
         if (response == null) {
             return new AuthenticationStatus(false, "Missing Authorization Header", null);
@@ -65,14 +65,14 @@ public class AuthController {
     @PostMapping("/validateUser")
     public ResponseEntity<?> isValid(@RequestBody TokenDto token) throws Exception {
         System.out.println(token);
-        AuthResponse data = jwtUtil.validateToken(token.getToken());
+        AuthResponse data = authService.validateToken(token.getToken());
         return ResponseEntity.ok(data);
     }
 
     @PostMapping("/authorizedUser")
     public ResponseEntity<?> isAuthorized(@RequestBody TokenDto token) throws Exception {
         System.out.println(token);
-        Boolean response = jwtUtil.isAuthorizedToken(token.getToken());
+        Boolean response = authService.isAuthorizedToken(token.getToken());
         return ResponseEntity.ok(response);
     }
 

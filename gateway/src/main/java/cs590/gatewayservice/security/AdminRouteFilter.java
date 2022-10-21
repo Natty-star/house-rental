@@ -50,7 +50,7 @@ public class AdminRouteFilter extends AbstractGatewayFilterFactory<AdminRouteFil
 
                 try {
                     TokenDto request = new TokenDto(authHeader);
-                    Boolean response = restTemplate.postForObject("http://localhost:8082/authentication/authorizedUser", request, Boolean.class);
+                    Boolean response = restTemplate.postForObject("http://auth-service:8082/api/authentication/authorizedUser", request, Boolean.class);
                     if(!response){
                         List<String> details = new ArrayList<>();
                         details.add("Permission denied");
