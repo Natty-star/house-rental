@@ -40,7 +40,7 @@ public class PaymentService {
                 // call userService to get payment method
                 newPaymentMethod =
                         restTemplate.getForObject(
-                        "account-service:8083/api/accounts/preferredPaymentMethod/" +
+                        "http://account-service:8083/api/accounts/preferredPaymentMethod/" +
                         paymentRequest.getEmail() + "/" +
                         paymentRequest.getPaymentType(),
                         PaymentMethod.class
@@ -51,7 +51,7 @@ public class PaymentService {
                 // call userService to get default payment method
                 newPaymentMethod =
                 restTemplate.getForObject(
-                            "account-service:8083/api/accounts/preferredPaymentMethod/" +
+                            "http://account-service:8083/api/accounts/preferredPaymentMethod/" +
                                  paymentRequest.getEmail(),
                                  PaymentMethod.class
                 );
