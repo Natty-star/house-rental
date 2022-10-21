@@ -5,5 +5,5 @@
 #CMD mvn spring-boot:run
 
 FROM openjdk:17-alpine
-ADD target/*.jar app.jar
-ENTRYPOINT ["java", "-jar","app.jar"]
+ADD target/*.jar reservation.jar
+ENTRYPOINT ["java", "-jar","reservation.jar"]
