@@ -25,12 +25,22 @@ jobs:
         server-id: docker.io
         server-username: MAVEN_USERNAME
         server-password: MAVEN_PASSWORD
-    - name: Build with Maven
-      
+    - name: Build and Push payment
+
+    - name: push docker image
       run: mvn package dockerfile:push --file paypal/pom.xml
       env:
         MAVEN_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         MAVEN_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Build and Push account
+
+    - name: push docker image
+      run: mvn package dockerfile:push --file account/pom.xml
+      env:
+        MAVEN_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        MAVEN_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+
 
 #    - name: Build & push Docker image
 #      uses: mr-smithers-excellent/docker-build-push@v5
