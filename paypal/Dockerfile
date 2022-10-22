@@ -16,9 +16,9 @@
 #RUN mvn clean install
 #CMD mvn spring-boot:run
 
-FROM openjdk:11
+FROM openjdk:17
 ARG JAR_FILE=target/*.jar
-COPY ${JAR_FILE} paypal-0.0.1-SNAPSHOT.jar
-ENTRYPOINT ["java","-jar","/paypal-0.0.1-SNAPSHOT.jar"]
+COPY ${JAR_FILE} paypal-v1.jar
+ENTRYPOINT ["java","-jar","/paypal-v1.jar"]
 EXPOSE 8090
 

@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>edu.miu</groupId>
 	<artifactId>paypal</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>v1</version>
 	<name>paypal</name>
 	<description>Paypal service</description>
 	<properties>
