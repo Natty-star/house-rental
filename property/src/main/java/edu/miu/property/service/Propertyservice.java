@@ -21,4 +21,8 @@ public interface Propertyservice {
     List<String> uploadMultipleFiles(List<MultipartFile> files);
 
     String updateProperty(UpdateDto updateDto);
+
+    List<Property> getReserved();
+
+    List<Property> getAvailable();
 }

@@ -70,6 +70,7 @@ public class PropertyController {
 
     @GetMapping("/{id}")
     public ReservationResponse getProperty(@PathVariable String id){
+//        System.out.println();
         return propertyService.getProperty(id);
     }
 
@@ -77,6 +78,17 @@ public class PropertyController {
     public List<Property> getAll(){
         return propertyService.getAll();
     }
+
+    @GetMapping("/reserved")
+    public List<Property> getReserved(){
+        return propertyService.getReserved();
+    }
+
+    @GetMapping("/available")
+    public List<Property> getAvailable(){
+        return propertyService.getAvailable();
+    }
+
 
 
 //    @PostMapping("/image")

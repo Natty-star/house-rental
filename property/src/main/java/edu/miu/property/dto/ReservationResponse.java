@@ -17,4 +17,5 @@ public class ReservationResponse implements Serializable {
     private String propertyTitle;
     private double price;
     private String userEmail;
+    private boolean status;
 }

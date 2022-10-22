@@ -1,16 +1,19 @@
-package edu.miu.cs590.reservation.dto;
+
+package edu.miu.cs590.notification.dao;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
+
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
 public class NotificationRequest {
+
+
     private String gustUserEmail;
     private String hostUserEmail;
     private String propertyName;

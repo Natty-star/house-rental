@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: property-deployment
+  labels:
+    app: property
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: property
+  template:
+    metadata:
+      labels:
+        app: property
+    spec:
+      containers:
+        - name: property
+          image: tsidk29/property:v1
+          imagePullPolicy: "IfNotPresent"
+          ports:
+            - containerPort: 8085 # port to access the app in the container
+          env: #setting enviromental variable for the container
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: vault
+                  key: DB_USER_NAME
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: vault
+                  key: DB_PASSWORD
+            - name: DB_NAME
+              value: property
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: property-service
+spec:
+  selector:
+    app: property
+   type: NodePort # LoadBalancer for or NodePort external service
+  ports:
+    - protocol: TCP
+      port: 8085 # port to access the pod
+      targetPort: 8085 # must be the same as the containerPort
+      nodePort: 30200 ## for external service port

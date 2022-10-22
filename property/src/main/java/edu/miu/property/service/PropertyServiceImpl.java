@@ -3,7 +3,6 @@ package edu.miu.property.service;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
-import com.fasterxml.jackson.databind.annotation.JsonAppend;
 import edu.miu.property.dto.PropertyRequest;
 import edu.miu.property.dto.ReservationResponse;
 import edu.miu.property.dto.ReservationStatusUpdate;
@@ -16,7 +15,6 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -27,7 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service @CacheConfig(cacheNames = {"Property"})
-public class PropertyServiceImpl implements Propertyservice{
+public class PropertyServiceImpl implements Propertyservice {
 
     private AmazonS3 amazonS3;
 
@@ -44,15 +42,15 @@ public class PropertyServiceImpl implements Propertyservice{
 //        return "property added";
 //    }
 
-    public String add(PropertyRequest propertyRequest, List<MultipartFile> images,Double latitude, Double longitude){
+    public String add(PropertyRequest propertyRequest, List<MultipartFile> images, Double latitude, Double longitude) {
         Double location[] = new Double[2];
-    location[0]= longitude;
-    location[1]= latitude;
+        location[0] = longitude;
+        location[1] = latitude;
 
-    List<String> imageUrls =uploadMultipleFiles(images);
+        List<String> imageUrls = uploadMultipleFiles(images);
 
         Property p = Property.builder()
-            .propertyName(propertyRequest.getPropertyName())
+                .propertyName(propertyRequest.getPropertyName())
                 .title(propertyRequest.getTitle())
                 .price(propertyRequest.getPrice())
                 .status(propertyRequest.getStatus())
@@ -61,35 +59,35 @@ public class PropertyServiceImpl implements Propertyservice{
                 .location(location)
                 .images(imageUrls).build();
 
-         propertyRepo.save(p);
-         return "Property saved";
+        propertyRepo.save(p);
+        return "Property saved";
 
     }
 
-    public String update(ReservationStatusUpdate reservationStatusUpdate){
+    public String update(ReservationStatusUpdate reservationStatusUpdate) {
         Property p = propertyRepo.findById(reservationStatusUpdate.getId()).get();
-//        if (p != null){
-//            System.out.println("not found");
-//        }
-        System.out.println(p.toString());
         p.setStatus(!p.getStatus());
         propertyRepo.save(p);
         return "updated";
     }
 
     @Cacheable
-    public ReservationResponse getProperty(String id){
+    public ReservationResponse getProperty(String id) {
         Property p = propertyRepo.findById(id).get();
-        ReservationResponse response= ReservationResponse.builder()
+
+//        System.out.println(propertyRepo.findById("635184b8431b355613eccf47").get());
+        ReservationResponse response = ReservationResponse.builder()
                 .propertyTitle(p.getTitle())
                 .propertyName(p.getPropertyName())
                 .userEmail(p.getUserEmail())
+                .status(p.getStatus())
                 .price(p.getPrice()).build();
+        System.out.println(response);
 
         return response;
     }
 
-    public List<Property> getAll(){
+    public List<Property> getAll() {
         return propertyRepo.findAll();
     }
 
@@ -115,7 +113,7 @@ public class PropertyServiceImpl implements Propertyservice{
         return url.toString();
     }
 
-    public  List<String> uploadMultipleFiles(List<MultipartFile> files){
+    public List<String> uploadMultipleFiles(List<MultipartFile> files) {
         List<String> urlList = new ArrayList<>();
 
         files.forEach(file -> {
@@ -144,5 +142,29 @@ public class PropertyServiceImpl implements Propertyservice{
 
         propertyRepo.save(p);
         return "Property updated";
+    }
+
+    @Override
+    public List<Property> getReserved() {
+        List<Property> p = propertyRepo.findAll();
+        List<Property> reserved = new ArrayList<>();
+        for (Property prop : p) {
+            if (prop.getStatus()) {
+                reserved.add(prop);
+            }
+        }
+        return reserved;
+    }
+
+    @Override
+    public List<Property> getAvailable() {
+        List<Property> availableProperties = propertyRepo.findAll();
+        List<Property> available = new ArrayList<>();
+        for (Property prop : availableProperties) {
+            if (!prop.getStatus()) {
+                available.add(prop);
+            }
+        }
+        return available;
     }
 }

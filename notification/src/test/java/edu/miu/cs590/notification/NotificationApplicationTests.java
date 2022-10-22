@@ -1,9 +1,10 @@
-package edu.miu.property;
+package edu.miu.cs590.notification;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-class PropertyApplicationTests {
+@SpringBootTest
+class NotificationApplicationTests {
 
 	@Test
 	void contextLoads() {
