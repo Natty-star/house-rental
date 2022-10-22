@@ -38,7 +38,7 @@ public class Account {
 
     private PaymentType preferredPayment;
 
-    @JsonIgnore
+
     private List<PaymentMethod> paymentMethods;
 
     public Account(String firstName, String lastName, String email, String password, List<Role> roles, Address address, PaymentType preferredPayment, List<PaymentMethod> paymentMethods) {
@@ -52,7 +52,4 @@ public class Account {
         this.paymentMethods = paymentMethods;
     }
 
-    public AuthResponse getAuthResponse(){
-        return new AuthResponse(true, firstName, lastName, email, roles);
-    }
 }
