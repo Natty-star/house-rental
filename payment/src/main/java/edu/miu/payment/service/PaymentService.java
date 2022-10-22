@@ -4,9 +4,11 @@ package edu.miu.payment.service;
 import edu.miu.payment.model.PaymentMethod;
 import edu.miu.payment.model.PaymentRequest;
 import edu.miu.payment.model.PaymentType;
+import edu.miu.payment.model.QueueConstants;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -26,7 +28,8 @@ public class PaymentService {
     @Value("#{${paymentmap}}")
     private Map<String, String> paymentMap;
 
-
+    @Autowired
+    private KafkaTemplate<String, String> kafkaTemplate;
 
     public String processPayment(PaymentRequest paymentRequest){
         PaymentMethod newPaymentMethod = new PaymentMethod();
@@ -80,11 +83,18 @@ public class PaymentService {
                             paymentRequest.getReservationId(),
                             paymentRequest.getPaymentMethod().getPaymentType()
                     );
+                    this.kafkaTemplate.send(QueueConstants.TOPIC_NAME,String.format("Payment made by email %s, with reservation ID %s, and Payment Type %s was successful",
+                            paymentRequest.getEmail(),
+                            paymentRequest.getReservationId(),
+                            paymentRequest.getPaymentMethod().getPaymentType()));
                 } else {
                     log.warn("Error has occurred with paymentType {}, user with email {}",
                             paymentRequest.getPaymentMethod().getPaymentType(),
                             paymentRequest.getEmail()
                     );
+                    this.kafkaTemplate.send(QueueConstants.TOPIC_NAME,String.format("Error has occurred with paymentType %s, user with email %s",
+                            paymentRequest.getPaymentMethod().getPaymentType(),
+                            paymentRequest.getEmail()));
                 }
             });
         }
