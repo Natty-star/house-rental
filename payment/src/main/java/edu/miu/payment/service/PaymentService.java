@@ -94,47 +94,47 @@ public class PaymentService {
 
 
 
-    public PaymentMethod getByType(PaymentType paymentType){
-        if(paymentType != null && paymentType.equals(PaymentType.CC)  ){
-            return new PaymentMethod(
-                     PaymentType.CC,
-                    null,
-                    null,
-                    "CC123456789",
-                    "324",
-                    null
-            );
-
-        } else if (paymentType != null && paymentType.equals(PaymentType.PAYPAL)) {
-            return new PaymentMethod(
-                    PaymentType.PAYPAL,
-                    null,
-                    null,
-                    null,
-                    null,
-                    "example@domain.com"
-            );
-
-        } else if (paymentType != null && paymentType.equals(PaymentType.BANK)) {
-            return new PaymentMethod(
-                    PaymentType.BANK,
-                    "RoutingNumber_12334543",
-                    "BankAccountNumber_37864582",
-                    null,
-                    null,
-                    null
-            );
-
-        }else {
-            return new PaymentMethod(
-                    PaymentType.BANK,
-                    "RoutingNumber_12334543",
-                    "BankAccountNumber_37864582",
-                    null,
-                    null,
-                    null
-            );
-        }
-    }
+//    public PaymentMethod getByType(PaymentType paymentType){
+//        if(paymentType != null && paymentType.equals(PaymentType.CC)  ){
+//            return new PaymentMethod(
+//                     PaymentType.CC,
+//                    null,
+//                    null,
+//                    "CC123456789",
+//                    "324",
+//                    null
+//            );
+//
+//        } else if (paymentType != null && paymentType.equals(PaymentType.PAYPAL)) {
+//            return new PaymentMethod(
+//                    PaymentType.PAYPAL,
+//                    null,
+//                    null,
+//                    null,
+//                    null,
+//                    "example@domain.com"
+//            );
+//
+//        } else if (paymentType != null && paymentType.equals(PaymentType.BANK)) {
+//            return new PaymentMethod(
+//                    PaymentType.BANK,
+//                    "RoutingNumber_12334543",
+//                    "BankAccountNumber_37864582",
+//                    null,
+//                    null,
+//                    null
+//            );
+//
+//        }else {
+//            return new PaymentMethod(
+//                    PaymentType.BANK,
+//                    "RoutingNumber_12334543",
+//                    "BankAccountNumber_37864582",
+//                    null,
+//                    null,
+//                    null
+//            );
+//        }
+//    }
 
 }
