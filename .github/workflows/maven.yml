@@ -27,7 +27,6 @@ jobs:
         server-password: MAVEN_PASSWORD
     - name: Build and Push payment
 
-    - name: push docker image
       run: mvn package dockerfile:push --file paypal/pom.xml
       env:
         MAVEN_USERNAME: ${{ secrets.DOCKER_USERNAME }}
@@ -35,7 +34,6 @@ jobs:
 
     - name: Build and Push account
 
-    - name: push docker image
       run: mvn package dockerfile:push --file account/pom.xml
       env:
         MAVEN_USERNAME: ${{ secrets.DOCKER_USERNAME }}
