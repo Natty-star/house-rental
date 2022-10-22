@@ -32,6 +32,8 @@ public class PaymentService {
     private KafkaTemplate<String, String> kafkaTemplate;
 
     public String processPayment(PaymentRequest paymentRequest){
+        log.info("success" + paymentRequest);
+
         PaymentMethod newPaymentMethod = new PaymentMethod();
 
         if(paymentRequest.getPaymentMethod() != null){

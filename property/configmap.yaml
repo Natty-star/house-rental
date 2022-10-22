@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: propertymap
+data:
+  cc: property-service:8085
+
