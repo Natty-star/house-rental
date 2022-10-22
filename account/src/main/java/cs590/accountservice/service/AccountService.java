@@ -1,5 +1,6 @@
 package cs590.accountservice.service;
 
+import cs590.accountservice.DTO.AuthResponse;
 import cs590.accountservice.entity.*;
 import java.util.List;
 
@@ -13,5 +14,7 @@ public interface AccountService {
     public String getPreferredPayment(String email) ;
 
     public PaymentMethod getPaymentDetail(String email, PaymentType paymentType);
+
+    public AuthResponse getAuthResponse(Account account);
 
 }
