@@ -25,16 +25,39 @@ jobs:
         server-id: docker.io
         server-username: MAVEN_USERNAME
         server-password: MAVEN_PASSWORD
-    - name: Build and Push payment
 
+    - name: Build and Push payment
       run: mvn package dockerfile:push --file paypal/pom.xml
       env:
         MAVEN_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         MAVEN_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 
     - name: Build and Push account
-
       run: mvn package dockerfile:push --file account/pom.xml
+      env:
+        MAVEN_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        MAVEN_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Build and Push authentication
+      run: mvn package dockerfile:push --file authentication/pom.xml
+      env:
+        MAVEN_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        MAVEN_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Build and Push bank
+      run: mvn package dockerfile:push --file bank/pom.xml
+      env:
+        MAVEN_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        MAVEN_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Build and Push creditcard
+      run: mvn package dockerfile:push --file creditcard/pom.xml
+      env:
+        MAVEN_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        MAVEN_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Build and Push gateway
+      run: mvn package dockerfile:push --file gateway/pom.xml
       env:
         MAVEN_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         MAVEN_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
