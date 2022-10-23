@@ -86,7 +86,7 @@ public class ReservationService {
 
     private Property getProperty(String propertyId){
         Property property = webClient.build().get()
-                .uri("http://localhost:8085/api/property", uriBuilder -> uriBuilder.path("/{id}").build(propertyId))
+                .uri("http://property-service:8085/api/property", uriBuilder -> uriBuilder.path("/{id}").build(propertyId))
                 .retrieve()
                 .bodyToMono(Property.class)
                 .block();
@@ -95,7 +95,7 @@ public class ReservationService {
     private Mono<String> propertyReservation(String propertyId){
         Mono<String> propertyReservationResponse = webClient.build()
                 .post()
-                .uri("http://localhost:8085/api/property/updateStatus")
+                .uri("http://property-service:8085/api/property/updateStatus")
                 .body(Mono.just(propertyId),String.class)
                 .retrieve()
                 .bodyToMono(String.class);
@@ -106,7 +106,7 @@ public class ReservationService {
 
     private Mono<String> payment(PaymentRequest paymentRequest){
         Mono<String> paymentResponse = webClient.build().post()
-                .uri("http://localhost:8086/payments/pay")
+                .uri("http://payment-service:8086/payments/pay")
                 .body(Mono.just(paymentRequest), PaymentRequest.class)
                 .retrieve()
                 .bodyToMono(String.class);
