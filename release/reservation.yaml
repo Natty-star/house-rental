@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: reservation-deployment
+  labels:
+    app: reservation
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: reservation
+  template:
+    metadata:
+      labels:
+        app: reservation
+    spec:
+      containers:
+      - name: reservation
+        image: zedagem/reservation:v1
+        imagePullPolicy: "IfNotPresent"
+        ports:
+        - containerPort: 8084 # port to access the app in the container 
+        env: #setting enviromental variable for the container
+          - name: DB_USERNAME
+            valueFrom:
+                secretKeyRef:
+                  name: vault
+                  key: DB_USER_NAME
+          - name: DB_PASSWORD
+            valueFrom:
+                secretKeyRef:
+                  name: vault
+                  key: DB_PASSWORD
+          - name: DB_NAME
+            value: reservation
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: reservation-service
+spec:
+  selector:
+    app: reservation
+  # type: NodePort # LoadBalancer for or NodePort external service
+  ports:
+    - protocol: TCP
+      port: 8084 # port to access the pod 
+      targetPort: 8084 # must be the same as the containerPort 
+      # nodePort: 30200 ## for external service port
