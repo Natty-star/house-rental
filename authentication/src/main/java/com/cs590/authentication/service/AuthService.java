@@ -68,7 +68,7 @@ public class AuthService {
 
     public Boolean isAuthorizedToken(final String header) throws JwtTokenMalformedException, JwtTokenMissingException {
         AuthResponse response = validateToken(header);
-        return response.getRoles().stream().anyMatch(role -> role.getName().equals("asdmin"));
+        return response.getRoles().stream().anyMatch(role -> role.getName().equals("admin"));
     }
 
 }
