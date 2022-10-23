@@ -1,9 +1,6 @@
 package edu.miu.cs590.reservation.service;
 
-import edu.miu.cs590.reservation.dto.NotificationRequest;
-import edu.miu.cs590.reservation.dto.PaymentRequest;
-import edu.miu.cs590.reservation.dto.Property;
-import edu.miu.cs590.reservation.dto.ReservationRequest;
+import edu.miu.cs590.reservation.dto.*;
 import edu.miu.cs590.reservation.model.Reservation;
 import edu.miu.cs590.reservation.repository.ReservationRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -96,10 +93,11 @@ public class ReservationService {
         return property;
     }
     private Mono<String> propertyReservation(String propertyId){
+        ReservationStatusUpdate request = new ReservationStatusUpdate(propertyId);
         Mono<String> propertyReservationResponse = webClient.build()
                 .post()
                 .uri("http://property-service:8085/api/property/updateStatus")
-                .body(Mono.just(propertyId),String.class)
+                .body(Mono.just(request),ReservationStatusUpdate.class)
                 .retrieve()
                 .bodyToMono(String.class);
         log.info("Property reserved");
