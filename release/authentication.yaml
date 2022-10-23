@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: auth-service
-          image: syilma/authentication-img:v1
+          image: nattystar/authentication:v1
           ports:
             - containerPort: 8082
           env:

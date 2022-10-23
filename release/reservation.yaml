@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: reservation
-        image: zedagem/reservation:v1
+        image: nattystar/reservation:v1
         imagePullPolicy: "IfNotPresent"
         ports:
         - containerPort: 8084 # port to access the app in the container 
