@@ -32,7 +32,7 @@ public class ReservationService {
     KafkaTemplate<String,NotificationRequest> kafkaTemplate;
     private static final String TOPIC = "notification";
 
-    public void create(ReservationRequest reservationRequest){
+    public String create(ReservationRequest reservationRequest){
         Property property = getProperty(reservationRequest.getPropertyId());
 
         if (!property.isStatus()){
@@ -74,9 +74,10 @@ public class ReservationService {
 
             // messaging to kafka
             sendToKafka(notificationRequest);
-
+            return "Successfully Reserved";
         }else {
             log.info("The house already reserved");
+            return "The house already reserved";
         }
 
 
@@ -105,6 +106,7 @@ public class ReservationService {
     }
 
     private Mono<String> payment(PaymentRequest paymentRequest){
+        System.out.println("In side the payment" + paymentRequest);
         Mono<String> paymentResponse = webClient.build().post()
                 .uri("http://payment-service:8086/payments/pay")
                 .body(Mono.just(paymentRequest), PaymentRequest.class)
