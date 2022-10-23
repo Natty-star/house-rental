@@ -41,9 +41,9 @@ metadata:
 spec:
   selector:
     app: property
-    type: NodePort # LoadBalancer for or NodePort external service
+    # type: NodePort # LoadBalancer for or NodePort external service
   ports:
     - protocol: TCP
       port: 8085 # port to access the pod
       targetPort: 8085 # must be the same as the containerPort
-      nodePort: 30200 ## for external service port
+      # nodePort: 30200 ## for external service port
