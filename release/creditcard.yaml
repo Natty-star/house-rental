@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: creditcard
-        image: zedagem/creditcard:v1
+        image: nattystar/creditcard:v1
         imagePullPolicy: "IfNotPresent"
         ports:
         - containerPort: 8089 # port to access the app in the container 

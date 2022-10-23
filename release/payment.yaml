@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: payment
-        image: zedagem/payment:v1
+        image: nattystar/payment:v1
         imagePullPolicy: "IfNotPresent"
         ports:
         - containerPort: 8086 # port to access the app in the container 
@@ -49,4 +49,4 @@ spec:
     - protocol: TCP
       port: 8086 # port to access the pod 
       targetPort: 8086 # must be the same as the containerPort 
-      nodePort: 30200 ## for external service port
+      nodePort: 30300 ## for external service port

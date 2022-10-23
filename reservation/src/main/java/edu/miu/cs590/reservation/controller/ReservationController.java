@@ -25,8 +25,8 @@ public class ReservationController {
 
     @PostMapping
     public String create(@RequestBody ReservationRequest reservationRequest){
-        reservationService.create(reservationRequest);
-        return "Successfully Reserved";
+
+        return  reservationService.create(reservationRequest);
     }
 
     @GetMapping("/{userEmail}")
