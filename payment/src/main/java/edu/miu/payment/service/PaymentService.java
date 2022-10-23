@@ -4,9 +4,11 @@ package edu.miu.payment.service;
 import edu.miu.payment.model.PaymentMethod;
 import edu.miu.payment.model.PaymentRequest;
 import edu.miu.payment.model.PaymentType;
+import edu.miu.payment.model.QueueConstants;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -26,7 +28,8 @@ public class PaymentService {
     @Value("#{${paymentmap}}")
     private Map<String, String> paymentMap;
 
-
+    @Autowired
+    private KafkaTemplate<String, String> kafkaTemplate;
 
     public String processPayment(PaymentRequest paymentRequest){
         log.info("success" + paymentRequest);
@@ -40,24 +43,24 @@ public class PaymentService {
         } else if (paymentRequest.getPaymentMethod() == null) {
             if(paymentRequest.getPaymentType() != null){
                 // call userService to get payment method
-//                newPaymentMethod =
-//                        restTemplate.getForObject(
-//                        "account-service:8083/api/accounts/preferredPaymentMethod/" +
-//                        paymentRequest.getEmail() + "/" +
-//                        paymentRequest.getPaymentType(),
-//                        PaymentMethod.class
-//                );
-                newPaymentMethod = getByType(paymentRequest.getPaymentType());
+                newPaymentMethod =
+                        restTemplate.getForObject(
+                        "http://account-service:8083/api/accounts/preferredPaymentMethod/" +
+                        paymentRequest.getEmail() + "/" +
+                        paymentRequest.getPaymentType(),
+                        PaymentMethod.class
+                );
+//                newPaymentMethod = getByType(paymentRequest.getPaymentType());
             }
             else {
                 // call userService to get default payment method
-//                newPaymentMethod =
-//                restTemplate.getForObject(
-//                            "account-service:8083/api/accounts/preferredPaymentMethod/" +
-//                                 paymentRequest.getEmail(),
-//                                 PaymentMethod.class
-//                );
-                newPaymentMethod = getByType(null);
+                newPaymentMethod =
+                restTemplate.getForObject(
+                            "http://account-service:8083/api/accounts/preferredPaymentMethod/" +
+                                 paymentRequest.getEmail(),
+                                 PaymentMethod.class
+                );
+//                newPaymentMethod = getByType(null);
             }
         }
 
@@ -82,11 +85,18 @@ public class PaymentService {
                             paymentRequest.getReservationId(),
                             paymentRequest.getPaymentMethod().getPaymentType()
                     );
+                    this.kafkaTemplate.send(QueueConstants.TOPIC_NAME,String.format("Payment made by email %s, with reservation ID %s, and Payment Type %s was successful",
+                            paymentRequest.getEmail(),
+                            paymentRequest.getReservationId(),
+                            paymentRequest.getPaymentMethod().getPaymentType()));
                 } else {
                     log.warn("Error has occurred with paymentType {}, user with email {}",
                             paymentRequest.getPaymentMethod().getPaymentType(),
                             paymentRequest.getEmail()
                     );
+                    this.kafkaTemplate.send(QueueConstants.TOPIC_NAME,String.format("Error has occurred with paymentType %s, user with email %s",
+                            paymentRequest.getPaymentMethod().getPaymentType(),
+                            paymentRequest.getEmail()));
                 }
             });
         }
@@ -96,47 +106,47 @@ public class PaymentService {
 
 
 
-    public PaymentMethod getByType(PaymentType paymentType){
-        if(paymentType != null && paymentType.equals(PaymentType.CC)  ){
-            return new PaymentMethod(
-                     PaymentType.CC,
-                    null,
-                    null,
-                    "CC123456789",
-                    "324",
-                    null
-            );
-
-        } else if (paymentType != null && paymentType.equals(PaymentType.PAYPAL)) {
-            return new PaymentMethod(
-                    PaymentType.PAYPAL,
-                    null,
-                    null,
-                    null,
-                    null,
-                    "example@domain.com"
-            );
-
-        } else if (paymentType != null && paymentType.equals(PaymentType.BANK)) {
-            return new PaymentMethod(
-                    PaymentType.BANK,
-                    "RoutingNumber_12334543",
-                    "BankAccountNumber_37864582",
-                    null,
-                    null,
-                    null
-            );
-
-        }else {
-            return new PaymentMethod(
-                    PaymentType.BANK,
-                    "RoutingNumber_12334543",
-                    "BankAccountNumber_37864582",
-                    null,
-                    null,
-                    null
-            );
-        }
-    }
+//    public PaymentMethod getByType(PaymentType paymentType){
+//        if(paymentType != null && paymentType.equals(PaymentType.CC)  ){
+//            return new PaymentMethod(
+//                     PaymentType.CC,
+//                    null,
+//                    null,
+//                    "CC123456789",
+//                    "324",
+//                    null
+//            );
+//
+//        } else if (paymentType != null && paymentType.equals(PaymentType.PAYPAL)) {
+//            return new PaymentMethod(
+//                    PaymentType.PAYPAL,
+//                    null,
+//                    null,
+//                    null,
+//                    null,
+//                    "example@domain.com"
+//            );
+//
+//        } else if (paymentType != null && paymentType.equals(PaymentType.BANK)) {
+//            return new PaymentMethod(
+//                    PaymentType.BANK,
+//                    "RoutingNumber_12334543",
+//                    "BankAccountNumber_37864582",
+//                    null,
+//                    null,
+//                    null
+//            );
+//
+//        }else {
+//            return new PaymentMethod(
+//                    PaymentType.BANK,
+//                    "RoutingNumber_12334543",
+//                    "BankAccountNumber_37864582",
+//                    null,
+//                    null,
+//                    null
+//            );
+//        }
+//    }
 
 }

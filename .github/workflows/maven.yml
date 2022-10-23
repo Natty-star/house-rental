@@ -62,6 +62,31 @@ jobs:
         MAVEN_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         MAVEN_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 
+    - name: Build and Push notification
+      run: mvn package dockerfile:push --file notification/pom.xml
+      env:
+        MAVEN_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        MAVEN_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Build and Push payment
+      run: mvn package dockerfile:push --file payment/pom.xml
+      env:
+        MAVEN_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        MAVEN_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Build and Push property
+      run: mvn package dockerfile:push --file property/pom.xml
+      env:
+        MAVEN_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        MAVEN_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Build and Push reservation
+      run: mvn package dockerfile:push --file reservation/pom.xml
+      env:
+        MAVEN_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        MAVEN_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+
+
 
 #    - name: Build & push Docker image
 #      uses: mr-smithers-excellent/docker-build-push@v5
