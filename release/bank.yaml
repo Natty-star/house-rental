@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: bank
-        image: zedagem/bank:v1
+        image: zedagem/bank:v2
         imagePullPolicy: "IfNotPresent"
         ports:
         - containerPort: 8091 # port to access the app in the container 
@@ -41,9 +41,9 @@ metadata:
 spec:
   selector:
     app: bank
-  # type: NodePort # LoadBalancer for or NodePort external service
+  type: NodePort # LoadBalancer for or NodePort external service
   ports:
     - protocol: TCP
       port: 8091 # port to access the pod 
       targetPort: 8091 # must be the same as the containerPort 
-      # nodePort: 30200 ## for external service port
+      nodePort: 30600 ## for external service port

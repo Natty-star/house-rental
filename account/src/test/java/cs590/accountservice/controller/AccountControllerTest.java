@@ -2,6 +2,7 @@ package cs590.accountservice.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import cs590.accountservice.DTO.AuthRequest;
+import cs590.accountservice.DTO.AuthResponse;
 import cs590.accountservice.controller.AccountController;
 import cs590.accountservice.entity.*;
 import cs590.accountservice.repository.AccountRepository;
@@ -100,8 +101,10 @@ public class AccountControllerTest {
     public void authenticate() throws Exception {
         AuthRequest login = new AuthRequest("selu@gmail.com", "1234");
         String json = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(login);
+        AuthResponse authResponse = new AuthResponse(true, mockAccount.getFirstName(), mockAccount.getLastName(), mockAccount.getEmail(), mockAccount.getRoles());
 
         Mockito.when(accountService.getAccount(Mockito.anyString(),Mockito.anyString())).thenReturn(mockAccount);
+        Mockito.when(accountService.getAuthResponse(Mockito.any(Account.class))).thenReturn(authResponse);
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders
                 .post("/api/accounts/authenticate")

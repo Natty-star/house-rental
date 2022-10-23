@@ -22,16 +22,78 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
         cache: maven
-    - name: Build with Maven
-    
-      run: mvn clean install --file reservation/pom.xml
+        server-id: docker.io
+        server-username: MAVEN_USERNAME
+        server-password: MAVEN_PASSWORD
 
-    - name: Build & push Docker image
-      uses: mr-smithers-excellent/docker-build-push@v5
-      with:
-        image: nattystar/reservation
-        tags: v1
-        registry: docker.io
-        dockerfile: reservation/Dockerfile
-        username: ${{ secrets.DOCKER_USERNAME }}
-        password: ${{ secrets.DOCKER_PASSWORD }}
+    - name: Build and Push payment
+      run: mvn package dockerfile:push --file paypal/pom.xml
+      env:
+        MAVEN_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        MAVEN_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Build and Push account
+      run: mvn package dockerfile:push --file account/pom.xml
+      env:
+        MAVEN_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        MAVEN_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Build and Push authentication
+      run: mvn package dockerfile:push --file authentication/pom.xml
+      env:
+        MAVEN_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        MAVEN_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Build and Push bank
+      run: mvn package dockerfile:push --file bank/pom.xml
+      env:
+        MAVEN_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        MAVEN_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Build and Push creditcard
+      run: mvn package dockerfile:push --file creditcard/pom.xml
+      env:
+        MAVEN_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        MAVEN_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Build and Push gateway
+      run: mvn package dockerfile:push --file gateway/pom.xml
+      env:
+        MAVEN_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        MAVEN_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Build and Push notification
+      run: mvn package dockerfile:push --file notification/pom.xml
+      env:
+        MAVEN_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        MAVEN_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Build and Push payment
+      run: mvn package dockerfile:push --file payment/pom.xml
+      env:
+        MAVEN_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        MAVEN_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Build and Push property
+      run: mvn package dockerfile:push --file property/pom.xml
+      env:
+        MAVEN_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        MAVEN_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Build and Push reservation
+      run: mvn package dockerfile:push --file reservation/pom.xml
+      env:
+        MAVEN_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        MAVEN_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+
+
+
+#    - name: Build & push Docker image
+#      uses: mr-smithers-excellent/docker-build-push@v5
+#      with:
+#        image: nattystar/paypal
+#        tags: v1
+#        registry: docker.io
+#        dockerfile: paypal/Dockerfile
+#        MAVEN_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+#        MAVEN_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}

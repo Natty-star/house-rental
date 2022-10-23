@@ -1,5 +1,6 @@
 package cs590.accountservice.service.Imp;
 
+import cs590.accountservice.DTO.AuthResponse;
 import cs590.accountservice.entity.Account;
 import cs590.accountservice.entity.Address;
 import cs590.accountservice.entity.PaymentMethod;
@@ -103,7 +104,7 @@ public class AccountServiceImp implements AccountService {
         if (account != null) {
             List<PaymentMethod> paymentMethods= account.getPaymentMethods();
 
-            if(paymentMethods.size() > 0) {
+            if(paymentMethods != null) {
                 Optional<PaymentMethod> preferredMethod= paymentMethods.stream()
                         .filter(paymentMethod -> paymentMethod.getPaymentType().toString().equals(preferredType)).findFirst();
 
@@ -111,5 +112,9 @@ public class AccountServiceImp implements AccountService {
             }
         }
         return null;
+    }
+
+    public AuthResponse getAuthResponse(Account account){
+        return new AuthResponse(true, account.getFirstName(), account.getLastName(), account.getEmail(), account.getRoles());
     }
 }

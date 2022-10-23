@@ -20,7 +20,7 @@ public class AccountController {
     @PostMapping("/authenticate")
     public ResponseEntity<AuthResponse> authenticate(@RequestBody AuthRequest authRequest) throws Exception {
         Account account = accountService.getAccount(authRequest.getUsername(), authRequest.getPassword());
-        AuthResponse authResponse = account == null ? new AuthResponse() : account.getAuthResponse();
+        AuthResponse authResponse = account == null ? new AuthResponse() : accountService.getAuthResponse(account);
         authResponse.setStatus(account != null);
 
         //new AuthResponse(account != null, account.getEmail(), account.getRoles());
