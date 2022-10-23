@@ -48,6 +48,7 @@ public class ReservationService {
 
             //Process property reservation
             Mono<String> propertyReserved = propertyReservation(reservationRequest.getPropertyId());
+            propertyReserved.subscribe();
 
         PaymentRequest paymentRequest = PaymentRequest.builder()
                 .totalAmount(newReservation.getPrice())
@@ -60,6 +61,7 @@ public class ReservationService {
 
         //send to payment
         Mono<String> paymentResp = payment(paymentRequest);
+        paymentResp.subscribe();
 //        log.info(paymentResp.block());
 
 
