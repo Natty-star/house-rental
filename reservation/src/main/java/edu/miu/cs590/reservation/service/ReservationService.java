@@ -60,6 +60,7 @@ public class ReservationService {
 
         //send to payment
         Mono<String> paymentResp = payment(paymentRequest);
+        paymentResp.subscribe();
 //        log.info(paymentResp.block());
 
 
