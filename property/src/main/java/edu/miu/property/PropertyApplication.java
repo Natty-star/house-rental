@@ -11,5 +11,4 @@ public class PropertyApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(PropertyApplication.class, args);
 	}
-
 }
