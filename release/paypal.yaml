@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: paypal
-        image: zedagem/paypal:v2
+        image: nattystar/paypal:v1
         imagePullPolicy: "IfNotPresent"
         ports:
         - containerPort: 8090 # port to access the app in the container 

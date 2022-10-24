@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: payment
-        image: zedagem/payment:v2
+        image: nattystar/payment:v1
         imagePullPolicy: "IfNotPresent"
         ports:
         - containerPort: 8086 # port to access the app in the container 

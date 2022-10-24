@@ -1,25 +1,25 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: property-deployment
+  name: reservation-deployment
   labels:
-    app: property
+    app: reservation
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: property
+      app: reservation
   template:
     metadata:
       labels:
-        app: property
+        app: reservation
     spec:
       containers:
-        - name: property
-          image: nattystar/property:v1
+        - name: reservation
+          image: nattystar/reservation:v1
           imagePullPolicy: "IfNotPresent"
           ports:
-            - containerPort: 8085 # port to access the app in the container
+            - containerPort: 8084 # port to access the app in the container
           env: #setting enviromental variable for the container
             - name: DB_USERNAME
               valueFrom:
@@ -32,18 +32,18 @@ spec:
                   name: vault
                   key: DB_PASSWORD
             - name: DB_NAME
-              value: property
+              value: reservation
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: property-service
+  name: reservation-service
 spec:
   selector:
-    app: property
-    # type: NodePort # LoadBalancer for or NodePort external service
+    app: reservation
+  # type: NodePort # LoadBalancer for or NodePort external service
   ports:
     - protocol: TCP
-      port: 8085 # port to access the pod
-      targetPort: 8085 # must be the same as the containerPort
+      port: 8084 # port to access the pod
+      targetPort: 8084 # must be the same as the containerPort
       # nodePort: 30200 ## for external service port

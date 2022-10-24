@@ -1,9 +1,6 @@
 package edu.miu.cs590.reservation.service;
 
-import edu.miu.cs590.reservation.dto.NotificationRequest;
-import edu.miu.cs590.reservation.dto.PaymentRequest;
-import edu.miu.cs590.reservation.dto.Property;
-import edu.miu.cs590.reservation.dto.ReservationRequest;
+import edu.miu.cs590.reservation.dto.*;
 import edu.miu.cs590.reservation.model.Reservation;
 import edu.miu.cs590.reservation.repository.ReservationRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -32,7 +29,7 @@ public class ReservationService {
     KafkaTemplate<String,NotificationRequest> kafkaTemplate;
     private static final String TOPIC = "notification";
 
-    public void create(ReservationRequest reservationRequest){
+    public String create(ReservationRequest reservationRequest){
         Property property = getProperty(reservationRequest.getPropertyId());
 
         if (!property.isStatus()){
@@ -48,6 +45,7 @@ public class ReservationService {
 
             //Process property reservation
             Mono<String> propertyReserved = propertyReservation(reservationRequest.getPropertyId());
+            propertyReserved.subscribe();
 
         PaymentRequest paymentRequest = PaymentRequest.builder()
                 .totalAmount(newReservation.getPrice())
@@ -60,6 +58,7 @@ public class ReservationService {
 
         //send to payment
         Mono<String> paymentResp = payment(paymentRequest);
+        paymentResp.subscribe();
 //        log.info(paymentResp.block());
 
 
@@ -74,9 +73,10 @@ public class ReservationService {
 
             // messaging to kafka
             sendToKafka(notificationRequest);
-
+            return "Successfully Reserved";
         }else {
             log.info("The house already reserved");
+            return "The house already reserved";
         }
 
 
@@ -86,17 +86,18 @@ public class ReservationService {
 
     private Property getProperty(String propertyId){
         Property property = webClient.build().get()
-                .uri("http://localhost:8085/api/property", uriBuilder -> uriBuilder.path("/{id}").build(propertyId))
+                .uri("http://property-service:8085/api/property", uriBuilder -> uriBuilder.path("/{id}").build(propertyId))
                 .retrieve()
                 .bodyToMono(Property.class)
                 .block();
         return property;
     }
     private Mono<String> propertyReservation(String propertyId){
+        ReservationStatusUpdate request = new ReservationStatusUpdate(propertyId);
         Mono<String> propertyReservationResponse = webClient.build()
                 .post()
-                .uri("http://localhost:8085/api/property/updateStatus")
-                .body(Mono.just(propertyId),String.class)
+                .uri("http://property-service:8085/api/property/updateStatus")
+                .body(Mono.just(request),ReservationStatusUpdate.class)
                 .retrieve()
                 .bodyToMono(String.class);
         log.info("Property reserved");
@@ -105,8 +106,9 @@ public class ReservationService {
     }
 
     private Mono<String> payment(PaymentRequest paymentRequest){
+        System.out.println("In side the payment" + paymentRequest);
         Mono<String> paymentResponse = webClient.build().post()
-                .uri("http://localhost:8086/payments/pay")
+                .uri("http://payment-service:8086/payments/pay")
                 .body(Mono.just(paymentRequest), PaymentRequest.class)
                 .retrieve()
                 .bodyToMono(String.class);

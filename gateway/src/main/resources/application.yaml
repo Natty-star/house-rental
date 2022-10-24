@@ -5,6 +5,20 @@ spring:
     name: gateway-service
   cloud:
     gateway:
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowed-origins:
+              - "http://localhost:3000"
+            allowed-methods:
+              - GET
+              - POST
+              - DELETE
+              - PUT
+              - PATCH
+            allowed-headers:
+              - "*"
+            allow-credentials: true
       routes:
         - id: auth-service
           uri: http://auth-service:8082/

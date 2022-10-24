@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: bank
-        image: zedagem/bank:v2
+        image: nattystar/bank:v1
         imagePullPolicy: "IfNotPresent"
         ports:
         - containerPort: 8091 # port to access the app in the container 
