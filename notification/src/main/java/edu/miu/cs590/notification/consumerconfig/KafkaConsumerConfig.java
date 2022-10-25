@@ -30,14 +30,14 @@ public class KafkaConsumerConfig {
     }
 
     @Bean
-    public ConsumerFactory<String, NotificationRequest> consumerFactory() {
+    public ConsumerFactory<String, Object> consumerFactory() {
         return new org.springframework.kafka.core.DefaultKafkaConsumerFactory<>(consumerConfig());
 
     }
 
     @Bean
-    public KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<String,NotificationRequest>> factory(ConsumerFactory<String,NotificationRequest> consumerFactory) {
-        ConcurrentKafkaListenerContainerFactory<String, NotificationRequest> factory = new ConcurrentKafkaListenerContainerFactory<>();
+    public KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<String,Object>> factory(ConsumerFactory<String,Object> consumerFactory) {
+        ConcurrentKafkaListenerContainerFactory<String, Object> factory = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory);
         return factory;
     }
