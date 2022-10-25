@@ -5,6 +5,7 @@ import edu.miu.property.dto.ReservationResponse;
 import edu.miu.property.dto.ReservationStatusUpdate;
 import edu.miu.property.dto.UpdateDto;
 import edu.miu.property.model.Property;
+import org.springframework.data.geo.Point;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -25,4 +26,6 @@ public interface Propertyservice {
     List<Property> getReserved();
 
     List<Property> getAvailable();
+
+    List<Property> getNearByAvailable(Point location);
 }
