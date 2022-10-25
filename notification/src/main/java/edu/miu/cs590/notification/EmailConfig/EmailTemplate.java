@@ -1,11 +1,12 @@
 package edu.miu.cs590.notification.EmailConfig;
 
 
+import edu.miu.cs590.notification.dao.LogObject;
 import edu.miu.cs590.notification.dao.NotificationRequest;
 
 public class EmailTemplate {
 
-
+  // Html template for email
 
     public  String gustEmailTemplate(NotificationRequest req ) {
 
@@ -593,4 +594,395 @@ public class EmailTemplate {
                 "\n" +
                 "</html>\n";
     }
+
+
+    public String rejectedTemplate(){
+        return "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\n" +
+                "<html xmlns=\"http://www.w3.org/1999/xhtml\" xmlns:o=\"urn:schemas-microsoft-com:office:office\">\n" +
+                "\n" +
+                "<head>\n" +
+                "    <meta charset=\"UTF-8\">\n" +
+                "    <meta content=\"width=device-width, initial-scale=1\" name=\"viewport\">\n" +
+                "    <meta name=\"x-apple-disable-message-reformatting\">\n" +
+                "    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\n" +
+                "    <meta content=\"telephone=no\" name=\"format-detection\">\n" +
+                "    <title></title>\n" +
+                "    <!--[if (mso 16)]>\n" +
+                "    <style type=\"text/css\">\n" +
+                "    a {text-decoration: none;}\n" +
+                "    </style>\n" +
+                "    <![endif]-->\n" +
+                "    <!--[if gte mso 9]><style>sup { font-size: 100% !important; }</style><![endif]-->\n" +
+                "    <!--[if gte mso 9]>\n" +
+                "<xml>\n" +
+                "    <o:OfficeDocumentSettings>\n" +
+                "    <o:AllowPNG></o:AllowPNG>\n" +
+                "    <o:PixelsPerInch>96</o:PixelsPerInch>\n" +
+                "    </o:OfficeDocumentSettings>\n" +
+                "</xml>\n" +
+                "<![endif]-->\n" +
+                "</head>\n" +
+                "\n" +
+                "<body>\n" +
+                "    <div class=\"es-wrapper-color\">\n" +
+                "        <!--[if gte mso 9]>\n" +
+                "\t\t\t<v:background xmlns:v=\"urn:schemas-microsoft-com:vml\" fill=\"t\">\n" +
+                "\t\t\t\t<v:fill type=\"tile\" color=\"#f6f6f6\"></v:fill>\n" +
+                "\t\t\t</v:background>\n" +
+                "\t\t<![endif]-->\n" +
+                "        <table class=\"es-wrapper\" width=\"100%\" cellspacing=\"0\" cellpadding=\"0\">\n" +
+                "            <tbody>\n" +
+                "                <tr>\n" +
+                "                    <td class=\"esd-email-paddings\" valign=\"top\">\n" +
+                "                        <table class=\"esd-header-popover es-header\" cellspacing=\"0\" cellpadding=\"0\" align=\"center\">\n" +
+                "                            <tbody>\n" +
+                "                                <tr>\n" +
+                "                                    <td class=\"esd-stripe\" align=\"center\">\n" +
+                "                                        <table class=\"es-header-body\" width=\"600\" cellspacing=\"0\" cellpadding=\"0\" bgcolor=\"#ffffff\" align=\"center\">\n" +
+                "                                            <tbody>\n" +
+                "                                                <tr>\n" +
+                "                                                    <td class=\"es-p20t es-p20r es-p20l esd-structure\" align=\"left\">\n" +
+                "                                                        <!--[if mso]><table width=\"560\" cellpadding=\"0\"\n" +
+                "                            cellspacing=\"0\"><tr><td width=\"180\" valign=\"top\"><![endif]-->\n" +
+                "                                                        <table class=\"es-left\" cellspacing=\"0\" cellpadding=\"0\" align=\"left\">\n" +
+                "                                                            <tbody>\n" +
+                "                                                                <tr>\n" +
+                "                                                                    <td class=\"es-m-p0r es-m-p20b esd-container-frame\" width=\"180\" valign=\"top\" align=\"center\">\n" +
+                "                                                                        <table width=\"100%\" cellspacing=\"0\" cellpadding=\"0\">\n" +
+                "                                                                            <tbody>\n" +
+                "                                                                                <tr>\n" +
+                "                                                                                    <td align=\"center\" class=\"esd-block-image\" style=\"font-size: 0px;\"><a target=\"_blank\"><img class=\"adapt-img\" src=\"https://demo.stripocdn.email/content/guids/0ff00a4a-0c43-4310-9644-8c05c62959ec/images/payment_faiild.png\" alt style=\"display: block;\" width=\"180\"></a></td>\n" +
+                "                                                                                </tr>\n" +
+                "                                                                            </tbody>\n" +
+                "                                                                        </table>\n" +
+                "                                                                    </td>\n" +
+                "                                                                </tr>\n" +
+                "                                                            </tbody>\n" +
+                "                                                        </table>\n" +
+                "                                                        <!--[if mso]></td><td width=\"20\"></td><td width=\"360\" valign=\"top\"><![endif]-->\n" +
+                "                                                        <table cellspacing=\"0\" cellpadding=\"0\" align=\"right\">\n" +
+                "                                                            <tbody>\n" +
+                "                                                                <tr>\n" +
+                "                                                                    <td class=\"esd-container-frame\" width=\"360\" align=\"left\">\n" +
+                "                                                                        <table width=\"100%\" cellspacing=\"0\" cellpadding=\"0\">\n" +
+                "                                                                            <tbody>\n" +
+                "                                                                                <tr>\n" +
+                "                                                                                    <td align=\"left\" class=\"esd-block-text\">\n" +
+                "                                                                                        <p style=\"font-size: 23px; font-family: verdana, geneva, sans-serif; color: #d72f03;\">Payment Failed</p>\n" +
+                "                                                                                    </td>\n" +
+                "                                                                                </tr>\n" +
+                "                                                                            </tbody>\n" +
+                "                                                                        </table>\n" +
+                "                                                                    </td>\n" +
+                "                                                                </tr>\n" +
+                "                                                            </tbody>\n" +
+                "                                                        </table>\n" +
+                "                                                        <!--[if mso]></td></tr></table><![endif]-->\n" +
+                "                                                    </td>\n" +
+                "                                                </tr>\n" +
+                "                                            </tbody>\n" +
+                "                                        </table>\n" +
+                "                                    </td>\n" +
+                "                                </tr>\n" +
+                "                            </tbody>\n" +
+                "                        </table>\n" +
+                "                        <table class=\"es-content\" cellspacing=\"0\" cellpadding=\"0\" align=\"center\">\n" +
+                "                            <tbody>\n" +
+                "                                <tr>\n" +
+                "                                    <td class=\"esd-stripe\" align=\"center\">\n" +
+                "                                        <table class=\"es-content-body\" width=\"600\" cellspacing=\"0\" cellpadding=\"0\" bgcolor=\"#ffffff\" align=\"center\">\n" +
+                "                                            <tbody>\n" +
+                "                                                <tr>\n" +
+                "                                                    <td class=\"es-p20t es-p20r es-p20l esd-structure\" align=\"left\">\n" +
+                "                                                        <table width=\"100%\" cellspacing=\"0\" cellpadding=\"0\">\n" +
+                "                                                            <tbody>\n" +
+                "                                                                <tr>\n" +
+                "                                                                    <td class=\"esd-container-frame\" width=\"560\" valign=\"top\" align=\"center\">\n" +
+                "                                                                        <table width=\"100%\" cellspacing=\"0\" cellpadding=\"0\">\n" +
+                "                                                                            <tbody>\n" +
+                "                                                                                <tr>\n" +
+                "                                                                                    <td align=\"left\" class=\"esd-block-text\">\n" +
+                "                                                                                        <p style=\"font-size: 26px; color: #d51d0c;\">&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style=\"color:#ff0033;\"> &nbsp;&nbsp;&nbsp; &nbsp;<span style=\"font-family: 'comic sans ms', 'marker felt-thin', arial, sans-serif;\"> &nbsp;<strong>Please try Again</strong></span></span></p>\n" +
+                "                                                                                    </td>\n" +
+                "                                                                                </tr>\n" +
+                "                                                                            </tbody>\n" +
+                "                                                                        </table>\n" +
+                "                                                                    </td>\n" +
+                "                                                                </tr>\n" +
+                "                                                            </tbody>\n" +
+                "                                                        </table>\n" +
+                "                                                    </td>\n" +
+                "                                                </tr>\n" +
+                "                                            </tbody>\n" +
+                "                                        </table>\n" +
+                "                                    </td>\n" +
+                "                                </tr>\n" +
+                "                            </tbody>\n" +
+                "                        </table>\n" +
+                "                        <table class=\"esd-footer-popover es-footer\" cellspacing=\"0\" cellpadding=\"0\" align=\"center\">\n" +
+                "                            <tbody>\n" +
+                "                                <tr>\n" +
+                "                                    <td class=\"esd-stripe\" align=\"center\">\n" +
+                "                                        <table class=\"es-footer-body\" width=\"600\" cellspacing=\"0\" cellpadding=\"0\" bgcolor=\"#ffffff\" align=\"center\">\n" +
+                "                                            <tbody>\n" +
+                "                                                <tr>\n" +
+                "                                                    <td class=\"esd-structure es-p20t es-p20b es-p20r es-p20l\" align=\"left\">\n" +
+                "                                                        <!--[if mso]><table width=\"560\" cellpadding=\"0\" \n" +
+                "                        cellspacing=\"0\"><tr><td width=\"270\" valign=\"top\"><![endif]-->\n" +
+                "                                                        <table class=\"es-left\" cellspacing=\"0\" cellpadding=\"0\" align=\"left\">\n" +
+                "                                                            <tbody>\n" +
+                "                                                                <tr>\n" +
+                "                                                                    <td class=\"es-m-p20b esd-container-frame\" width=\"270\" align=\"left\">\n" +
+                "                                                                        <table width=\"100%\" cellspacing=\"0\" cellpadding=\"0\">\n" +
+                "                                                                            <tbody>\n" +
+                "                                                                                <tr>\n" +
+                "                                                                                    <td align=\"center\" class=\"esd-empty-container\" style=\"display: none;\"></td>\n" +
+                "                                                                                </tr>\n" +
+                "                                                                            </tbody>\n" +
+                "                                                                        </table>\n" +
+                "                                                                    </td>\n" +
+                "                                                                </tr>\n" +
+                "                                                            </tbody>\n" +
+                "                                                        </table>\n" +
+                "                                                        <!--[if mso]></td><td width=\"20\"></td><td width=\"270\" valign=\"top\"><![endif]-->\n" +
+                "                                                        <table class=\"es-right\" cellspacing=\"0\" cellpadding=\"0\" align=\"right\">\n" +
+                "                                                            <tbody>\n" +
+                "                                                                <tr>\n" +
+                "                                                                    <td class=\"esd-container-frame\" width=\"270\" align=\"left\">\n" +
+                "                                                                        <table width=\"100%\" cellspacing=\"0\" cellpadding=\"0\">\n" +
+                "                                                                            <tbody>\n" +
+                "                                                                                <tr>\n" +
+                "                                                                                    <td class=\"esd-empty-container\" style=\"display: none;\" align=\"center\"></td>\n" +
+                "                                                                                </tr>\n" +
+                "                                                                            </tbody>\n" +
+                "                                                                        </table>\n" +
+                "                                                                    </td>\n" +
+                "                                                                </tr>\n" +
+                "                                                            </tbody>\n" +
+                "                                                        </table>\n" +
+                "                                                        <!--[if mso]></td></tr></table><![endif]-->\n" +
+                "                                                    </td>\n" +
+                "                                                </tr>\n" +
+                "                                            </tbody>\n" +
+                "                                        </table>\n" +
+                "                                    </td>\n" +
+                "                                </tr>\n" +
+                "                            </tbody>\n" +
+                "                        </table>\n" +
+                "                    </td>\n" +
+                "                </tr>\n" +
+                "            </tbody>\n" +
+                "        </table>\n" +
+                "    </div>\n" +
+                "</body>\n" +
+                "\n" +
+                "</html>";
+    }
+
+    public String acceptedEmailTemplate(LogObject logObject){
+
+        return "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\n" +
+                "<html xmlns=\"http://www.w3.org/1999/xhtml\" xmlns:o=\"urn:schemas-microsoft-com:office:office\">\n" +
+                "\n" +
+                "<head>\n" +
+                "    <meta charset=\"UTF-8\">\n" +
+                "    <meta content=\"width=device-width, initial-scale=1\" name=\"viewport\">\n" +
+                "    <meta name=\"x-apple-disable-message-reformatting\">\n" +
+                "    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\n" +
+                "    <meta content=\"telephone=no\" name=\"format-detection\">\n" +
+                "    <title></title>\n" +
+                "    <!--[if (mso 16)]>\n" +
+                "    <style type=\"text/css\">\n" +
+                "    a {text-decoration: none;}\n" +
+                "    </style>\n" +
+                "    <![endif]-->\n" +
+                "    <!--[if gte mso 9]><style>sup { font-size: 100% !important; }</style><![endif]-->\n" +
+                "    <!--[if gte mso 9]>\n" +
+                "<xml>\n" +
+                "    <o:OfficeDocumentSettings>\n" +
+                "    <o:AllowPNG></o:AllowPNG>\n" +
+                "    <o:PixelsPerInch>96</o:PixelsPerInch>\n" +
+                "    </o:OfficeDocumentSettings>\n" +
+                "</xml>\n" +
+                "<![endif]-->\n" +
+                "</head>\n" +
+                "\n" +
+                "<body>\n" +
+                "    <div class=\"es-wrapper-color\">\n" +
+                "        <!--[if gte mso 9]>\n" +
+                "\t\t\t<v:background xmlns:v=\"urn:schemas-microsoft-com:vml\" fill=\"t\">\n" +
+                "\t\t\t\t<v:fill type=\"tile\" color=\"#f6f6f6\"></v:fill>\n" +
+                "\t\t\t</v:background>\n" +
+                "\t\t<![endif]-->\n" +
+                "        <table class=\"es-wrapper\" width=\"100%\" cellspacing=\"0\" cellpadding=\"0\">\n" +
+                "            <tbody>\n" +
+                "                <tr>\n" +
+                "                    <td class=\"esd-email-paddings\" valign=\"top\">\n" +
+                "                        <table class=\"esd-header-popover es-header\" cellspacing=\"0\" cellpadding=\"0\" align=\"center\">\n" +
+                "                            <tbody>\n" +
+                "                                <tr>\n" +
+                "                                    <td class=\"esd-stripe\" align=\"center\">\n" +
+                "                                        <table class=\"es-header-body\" width=\"600\" cellspacing=\"0\" cellpadding=\"0\" bgcolor=\"#ffffff\" align=\"center\">\n" +
+                "                                            <tbody>\n" +
+                "                                                <tr>\n" +
+                "                                                    <td class=\"es-p20t es-p20r es-p20l esd-structure\" align=\"left\">\n" +
+                "                                                        <!--[if mso]><table width=\"560\" cellpadding=\"0\"\n" +
+                "                            cellspacing=\"0\"><tr><td width=\"180\" valign=\"top\"><![endif]-->\n" +
+                "                                                        <table class=\"es-left\" cellspacing=\"0\" cellpadding=\"0\" align=\"left\">\n" +
+                "                                                            <tbody>\n" +
+                "                                                                <tr>\n" +
+                "                                                                    <td class=\"es-m-p0r es-m-p20b esd-container-frame\" width=\"180\" valign=\"top\" align=\"center\">\n" +
+                "                                                                        <table width=\"100%\" cellspacing=\"0\" cellpadding=\"0\">\n" +
+                "                                                                            <tbody>\n" +
+                "                                                                                <tr>\n" +
+                "                                                                                    <td align=\"center\" class=\"esd-block-image\" style=\"font-size: 0px;\"><a target=\"_blank\"><img class=\"adapt-img\" src=\"https://demo.stripocdn.email/content/guids/0ff00a4a-0c43-4310-9644-8c05c62959ec/images/paymentsuccess_ooe.png\" alt style=\"display: block;\" width=\"180\"></a></td>\n" +
+                "                                                                                </tr>\n" +
+                "                                                                            </tbody>\n" +
+                "                                                                        </table>\n" +
+                "                                                                    </td>\n" +
+                "                                                                </tr>\n" +
+                "                                                            </tbody>\n" +
+                "                                                        </table>\n" +
+                "                                                        <!--[if mso]></td><td width=\"20\"></td><td width=\"360\" valign=\"top\"><![endif]-->\n" +
+                "                                                        <table cellspacing=\"0\" cellpadding=\"0\" align=\"right\">\n" +
+                "                                                            <tbody>\n" +
+                "                                                                <tr>\n" +
+                "                                                                    <td class=\"esd-container-frame\" width=\"360\" align=\"left\">\n" +
+                "                                                                        <table width=\"100%\" cellspacing=\"0\" cellpadding=\"0\">\n" +
+                "                                                                            <tbody>\n" +
+                "                                                                                <tr>\n" +
+                "                                                                                    <td align=\"left\" class=\"esd-block-text\">\n" +
+                "                                                                                        <p style=\"font-size: 33px; font-family: verdana, geneva, sans-serif; color: #2cb128;\">Payment Accepted</p>\n" +
+                "                                                                                    </td>\n" +
+                "                                                                                </tr>\n" +
+                "                                                                            </tbody>\n" +
+                "                                                                        </table>\n" +
+                "                                                                    </td>\n" +
+                "                                                                </tr>\n" +
+                "                                                            </tbody>\n" +
+                "                                                        </table>\n" +
+                "                                                        <!--[if mso]></td></tr></table><![endif]-->\n" +
+                "                                                    </td>\n" +
+                "                                                </tr>\n" +
+                "                                            </tbody>\n" +
+                "                                        </table>\n" +
+                "                                    </td>\n" +
+                "                                </tr>\n" +
+                "                            </tbody>\n" +
+                "                        </table>\n" +
+                "                        <table class=\"es-content\" cellspacing=\"0\" cellpadding=\"0\" align=\"center\">\n" +
+                "                            <tbody>\n" +
+                "                                <tr>\n" +
+                "                                    <td class=\"esd-stripe\" align=\"center\">\n" +
+                "                                        <table class=\"es-content-body\" width=\"600\" cellspacing=\"0\" cellpadding=\"0\" bgcolor=\"#ffffff\" align=\"center\">\n" +
+                "                                            <tbody>\n" +
+                "                                                <tr>\n" +
+                "                                                    <td class=\"es-p20t es-p20r es-p20l esd-structure\" align=\"left\">\n" +
+                "                                                        <table width=\"100%\" cellspacing=\"0\" cellpadding=\"0\">\n" +
+                "                                                            <tbody>\n" +
+                "                                                                <tr>\n" +
+                "                                                                    <td class=\"esd-container-frame\" width=\"560\" valign=\"top\" align=\"center\">\n" +
+                "                                                                        <table width=\"100%\" cellspacing=\"0\" cellpadding=\"0\">\n" +
+                "                                                                            <tbody>\n" +
+                "                                                                                <tr>\n" +
+                "                                                                                    <td align=\"left\" class=\"esd-block-text\">\n" +
+                "                                                                                        <p style=\"font-size: 26px; color: #3a9f15;\">&nbsp; <b>Your confirmation number :"+logObject.getReservationId().substring(8)+"&nbsp;</b></p>\n" +
+                "                                                                                    </td>\n" +
+                "                                                                                </tr>\n" +
+                "                                                                            </tbody>\n" +
+                "                                                                        </table>\n" +
+                "                                                                    </td>\n" +
+                "                                                                </tr>\n" +
+                "                                                            </tbody>\n" +
+                "                                                        </table>\n" +
+                "                                                    </td>\n" +
+                "                                                </tr>\n" +
+                "                                                <tr>\n" +
+                "                                                    <td class=\"es-p20t es-p20r es-p20l esd-structure\" align=\"left\">\n" +
+                "                                                        <table width=\"100%\" cellspacing=\"0\" cellpadding=\"0\">\n" +
+                "                                                            <tbody>\n" +
+                "                                                                <tr>\n" +
+                "                                                                    <td class=\"esd-container-frame\" width=\"560\" valign=\"top\" align=\"center\">\n" +
+                "                                                                        <table width=\"100%\" cellspacing=\"0\" cellpadding=\"0\">\n" +
+                "                                                                            <tbody>\n" +
+                "                                                                                <tr>\n" +
+                "                                                                                    <td align=\"left\" class=\"esd-block-text\">\n" +
+                "                                                                                        <p style=\"font-size: 26px; color: #3a9f15;\">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<strong>Thank you for your payment</strong></p>\n" +
+                "                                                                                    </td>\n" +
+                "                                                                                </tr>\n" +
+                "                                                                            </tbody>\n" +
+                "                                                                        </table>\n" +
+                "                                                                    </td>\n" +
+                "                                                                </tr>\n" +
+                "                                                            </tbody>\n" +
+                "                                                        </table>\n" +
+                "                                                    </td>\n" +
+                "                                                </tr>\n" +
+                "                                            </tbody>\n" +
+                "                                        </table>\n" +
+                "                                    </td>\n" +
+                "                                </tr>\n" +
+                "                            </tbody>\n" +
+                "                        </table>\n" +
+                "                        <table class=\"esd-footer-popover es-footer\" cellspacing=\"0\" cellpadding=\"0\" align=\"center\">\n" +
+                "                            <tbody>\n" +
+                "                                <tr>\n" +
+                "                                    <td class=\"esd-stripe\" align=\"center\">\n" +
+                "                                        <table class=\"es-footer-body\" width=\"600\" cellspacing=\"0\" cellpadding=\"0\" bgcolor=\"#ffffff\" align=\"center\">\n" +
+                "                                            <tbody>\n" +
+                "                                                <tr>\n" +
+                "                                                    <td class=\"esd-structure es-p20t es-p20b es-p20r es-p20l\" align=\"left\">\n" +
+                "                                                        <!--[if mso]><table width=\"560\" cellpadding=\"0\" \n" +
+                "                        cellspacing=\"0\"><tr><td width=\"270\" valign=\"top\"><![endif]-->\n" +
+                "                                                        <table class=\"es-left\" cellspacing=\"0\" cellpadding=\"0\" align=\"left\">\n" +
+                "                                                            <tbody>\n" +
+                "                                                                <tr>\n" +
+                "                                                                    <td class=\"es-m-p20b esd-container-frame\" width=\"270\" align=\"left\">\n" +
+                "                                                                        <table width=\"100%\" cellspacing=\"0\" cellpadding=\"0\">\n" +
+                "                                                                            <tbody>\n" +
+                "                                                                                <tr>\n" +
+                "                                                                                    <td align=\"center\" class=\"esd-empty-container\" style=\"display: none;\"></td>\n" +
+                "                                                                                </tr>\n" +
+                "                                                                            </tbody>\n" +
+                "                                                                        </table>\n" +
+                "                                                                    </td>\n" +
+                "                                                                </tr>\n" +
+                "                                                            </tbody>\n" +
+                "                                                        </table>\n" +
+                "                                                        <!--[if mso]></td><td width=\"20\"></td><td width=\"270\" valign=\"top\"><![endif]-->\n" +
+                "                                                        <table class=\"es-right\" cellspacing=\"0\" cellpadding=\"0\" align=\"right\">\n" +
+                "                                                            <tbody>\n" +
+                "                                                                <tr>\n" +
+                "                                                                    <td class=\"esd-container-frame\" width=\"270\" align=\"left\">\n" +
+                "                                                                        <table width=\"100%\" cellspacing=\"0\" cellpadding=\"0\">\n" +
+                "                                                                            <tbody>\n" +
+                "                                                                                <tr>\n" +
+                "                                                                                    <td class=\"esd-empty-container\" style=\"display: none;\" align=\"center\"></td>\n" +
+                "                                                                                </tr>\n" +
+                "                                                                            </tbody>\n" +
+                "                                                                        </table>\n" +
+                "                                                                    </td>\n" +
+                "                                                                </tr>\n" +
+                "                                                            </tbody>\n" +
+                "                                                        </table>\n" +
+                "                                                        <!--[if mso]></td></tr></table><![endif]-->\n" +
+                "                                                    </td>\n" +
+                "                                                </tr>\n" +
+                "                                            </tbody>\n" +
+                "                                        </table>\n" +
+                "                                    </td>\n" +
+                "                                </tr>\n" +
+                "                            </tbody>\n" +
+                "                        </table>\n" +
+                "                    </td>\n" +
+                "                </tr>\n" +
+                "            </tbody>\n" +
+                "        </table>\n" +
+                "    </div>\n" +
+                "</body>\n" +
+                "\n" +
+                "</html>";
+    }
+
+
 }

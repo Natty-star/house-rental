@@ -3,13 +3,14 @@ package edu.miu.cs590.notification.consumerconfig;
 
 
 
+import edu.miu.cs590.notification.dao.LogObject;
 import edu.miu.cs590.notification.dao.NotificationRequest;
 
 import java.util.List;
 
 public class RequestMapper {
 
-
+    // Map json object to NotificationRequest and LogObject and return them
     public NotificationRequest mapRequest(List<NotificationRequest> notificationRequests) {
 
 
@@ -44,4 +45,28 @@ public class RequestMapper {
 
         return mappedRequest;
     }
+
+    public LogObject logObjectMapper(List<LogObject> logObjects) {
+
+        String status = String.valueOf(logObjects.get(0))
+                .substring(11, String.valueOf(logObjects.get(0)).length() - 1);
+
+        String email = String.valueOf(logObjects.get(1))
+                .substring(9, String.valueOf(logObjects.get(1)).length() - 1);
+
+        String reservationId = String.valueOf(logObjects.get(2))
+                .substring(17, String.valueOf(logObjects.get(2)).length() - 1);
+
+        String paymentType = String.valueOf(logObjects.get(3))
+                .substring(15, String.valueOf(logObjects.get(3)).length() - 2);
+
+        return LogObject.builder()
+                .status(status)
+                .email(email)
+                .reservationId(reservationId)
+                .paymentType(paymentType)
+                .build();
+    }
+
+
 }
