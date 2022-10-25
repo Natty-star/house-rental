@@ -1,6 +1,7 @@
 package edu.miu.cs590.notification.EmailConfig;
 
 
+import edu.miu.cs590.notification.dao.LogObject;
 import edu.miu.cs590.notification.dao.NotificationRequest;
 
 public class EmailTemplate {
@@ -778,7 +779,7 @@ public class EmailTemplate {
                 "</html>";
     }
 
-    public String acceptedEmailTemplate(){
+    public String acceptedEmailTemplate(LogObject logObject){
 
         return "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\n" +
                 "<html xmlns=\"http://www.w3.org/1999/xhtml\" xmlns:o=\"urn:schemas-microsoft-com:office:office\">\n" +
@@ -834,7 +835,7 @@ public class EmailTemplate {
                 "                                                                        <table width=\"100%\" cellspacing=\"0\" cellpadding=\"0\">\n" +
                 "                                                                            <tbody>\n" +
                 "                                                                                <tr>\n" +
-                "                                                                                    <td align=\"center\" class=\"esd-block-image\" style=\"font-size: 0px;\"><a target=\"_blank\"><img class=\"adapt-img\" src=\"https://demo.stripocdn.email/content/guids/0ff00a4a-0c43-4310-9644-8c05c62959ec/images/paymentsuccess.png\" alt style=\"display: block;\" width=\"180\"></a></td>\n" +
+                "                                                                                    <td align=\"center\" class=\"esd-block-image\" style=\"font-size: 0px;\"><a target=\"_blank\"><img class=\"adapt-img\" src=\"https://demo.stripocdn.email/content/guids/0ff00a4a-0c43-4310-9644-8c05c62959ec/images/paymentsuccess_ooe.png\" alt style=\"display: block;\" width=\"180\"></a></td>\n" +
                 "                                                                                </tr>\n" +
                 "                                                                            </tbody>\n" +
                 "                                                                        </table>\n" +
@@ -851,7 +852,7 @@ public class EmailTemplate {
                 "                                                                            <tbody>\n" +
                 "                                                                                <tr>\n" +
                 "                                                                                    <td align=\"left\" class=\"esd-block-text\">\n" +
-                "                                                                                        <p style=\"font-size: 23px; font-family: verdana, geneva, sans-serif;\">Payment Successful &nbsp;</p>\n" +
+                "                                                                                        <p style=\"font-size: 33px; font-family: verdana, geneva, sans-serif; color: #2cb128;\">Payment Accepted</p>\n" +
                 "                                                                                    </td>\n" +
                 "                                                                                </tr>\n" +
                 "                                                                            </tbody>\n" +
@@ -885,7 +886,28 @@ public class EmailTemplate {
                 "                                                                            <tbody>\n" +
                 "                                                                                <tr>\n" +
                 "                                                                                    <td align=\"left\" class=\"esd-block-text\">\n" +
-                "                                                                                        <p style=\"font-size: 26px;\"><span style=\"color:#66cc99;\"></span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style=\"color:#66cc66;\">&nbsp; &nbsp;<span style=\"font-family: 'comic sans ms', 'marker felt-thin', arial, sans-serif;\"> &nbsp;<strong>Thank you for your payment</strong></span></span></p>\n" +
+                "                                                                                        <p style=\"font-size: 26px; color: #3a9f15;\">&nbsp; <b>Your confirmation number :"+logObject.getReservationId().substring(8)+"&nbsp;</b></p>\n" +
+                "                                                                                    </td>\n" +
+                "                                                                                </tr>\n" +
+                "                                                                            </tbody>\n" +
+                "                                                                        </table>\n" +
+                "                                                                    </td>\n" +
+                "                                                                </tr>\n" +
+                "                                                            </tbody>\n" +
+                "                                                        </table>\n" +
+                "                                                    </td>\n" +
+                "                                                </tr>\n" +
+                "                                                <tr>\n" +
+                "                                                    <td class=\"es-p20t es-p20r es-p20l esd-structure\" align=\"left\">\n" +
+                "                                                        <table width=\"100%\" cellspacing=\"0\" cellpadding=\"0\">\n" +
+                "                                                            <tbody>\n" +
+                "                                                                <tr>\n" +
+                "                                                                    <td class=\"esd-container-frame\" width=\"560\" valign=\"top\" align=\"center\">\n" +
+                "                                                                        <table width=\"100%\" cellspacing=\"0\" cellpadding=\"0\">\n" +
+                "                                                                            <tbody>\n" +
+                "                                                                                <tr>\n" +
+                "                                                                                    <td align=\"left\" class=\"esd-block-text\">\n" +
+                "                                                                                        <p style=\"font-size: 26px; color: #3a9f15;\">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<strong>Thank you for your payment</strong></p>\n" +
                 "                                                                                    </td>\n" +
                 "                                                                                </tr>\n" +
                 "                                                                            </tbody>\n" +

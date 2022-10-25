@@ -46,8 +46,8 @@ public class KafkaListener {
         LogObject logObject1 = new RequestMapper().logObjectMapper(logObject);
 
 
-        if (logObject1.getStatus().equals("successs")) {
-            emailService.sendHtmlEmail(logObject1.getEmail(), "Payment Successful", new EmailTemplate().acceptedEmailTemplate());
+        if (logObject1.getStatus().equals("success")) {
+            emailService.sendHtmlEmail(logObject1.getEmail(), "Payment Successful", new EmailTemplate().acceptedEmailTemplate(logObject1));
             log.info("email sent to {}", logObject1.getEmail());
         } else {
             emailService.sendHtmlEmail(logObject1.getEmail(), "Payment Failed", new EmailTemplate().rejectedTemplate());

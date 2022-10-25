@@ -17,6 +17,12 @@ mail:
 spring:
   kafka:
     bootstrap-servers:
-      kafka-service-headless.external-services:9092
-server:
-  port: 8087
+     kafka-service-headless.external-services:9092
+
+
+#server:
+#  port: 8087
+#spring:
+#  kafka:
+#    consumer:
+#      bootstrap-servers: localhost:9092
