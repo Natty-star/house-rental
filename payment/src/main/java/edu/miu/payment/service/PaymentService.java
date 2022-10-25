@@ -62,8 +62,9 @@ public class PaymentService {
         }
 
         if(paymentMap != null) {
-          String uri = paymentMap.get(newPaymentMethod.getPaymentType().toString());
 
+           String uri = paymentMap.get(newPaymentMethod.getPaymentType().toString());
+//String uri ="localhost:8089";
 
             paymentRequest.setPaymentMethod(newPaymentMethod);
 
