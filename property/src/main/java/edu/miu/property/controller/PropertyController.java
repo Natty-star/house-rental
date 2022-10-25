@@ -23,11 +23,6 @@ public class PropertyController {
     @Autowired
     private PropertyServiceImpl propertyService;
 
-//    @PostMapping("/update")
-//    public String update(@RequestParam String id){
-//        return propertyService.update(id);
-//    }
-
     @PostMapping("/updateStatus")
     public String update(@RequestBody ReservationStatusUpdate reservationStatusUpdate){
         return propertyService.update(reservationStatusUpdate);
