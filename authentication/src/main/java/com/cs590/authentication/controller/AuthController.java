@@ -4,11 +4,11 @@ import com.cs590.authentication.model.*;
 import com.cs590.authentication.service.AuthService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
-
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -20,12 +20,9 @@ public class AuthController {
     @Autowired
     private AuthService authService;
 
-    @Autowired
-    private RestTemplate restTemplate;
-
     @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
     public ResponseEntity<?> createToken(@RequestBody AuthRequest authRequest) throws JsonProcessingException {
-        AuthenticationStatus status = authenticate(authRequest) ;
+        AuthenticationStatus status = authService.authenticate(authRequest) ;
 
         if (!status.getIsAuthenticated()) {
             List<String> details = new ArrayList<>();
@@ -33,7 +30,6 @@ public class AuthController {
             ErrorResponseDto error = new ErrorResponseDto(new Date(),
                     HttpStatus.UNAUTHORIZED.value(),
                     "UNAUTHORIZED", details, "uri");
-
             return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
         }
 
@@ -42,23 +38,6 @@ public class AuthController {
         final String token = authService.generateToken(json);
 
         return ResponseEntity.ok(new AutClientResponse(token));
-    }
-
-    private AuthenticationStatus authenticate(AuthRequest authRequest) {
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<AuthRequest> request = new HttpEntity<AuthRequest>(authRequest, headers);
-
-        AuthResponse response = restTemplate.postForObject("http://account-service:8083/api/accounts/authenticate", request, AuthResponse.class);
-        System.out.println(response);
-        if (response == null) {
-            return new AuthenticationStatus(false, "Missing Authorization Header", null);
-        } else if (!response.getStatus()) {
-            return new AuthenticationStatus(false, "Invalid Username/Password" , null);
-        }
-
-        return new AuthenticationStatus(true, "Authentication Successful", response);
     }
 
 

@@ -7,6 +7,7 @@ import cs590.accountservice.entity.PaymentMethod;
 import cs590.accountservice.entity.PaymentType;
 import cs590.accountservice.repository.AccountRepository;
 import cs590.accountservice.service.AccountService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -16,10 +17,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Slf4j
 public class AccountServiceImp implements AccountService {
 
     PasswordEncoder passwordEncoder;
@@ -40,7 +43,8 @@ public class AccountServiceImp implements AccountService {
             account.setPassword(encodedPassword);
             return accountRepository.save(account);
         } catch (Exception e){
-            throw new RuntimeException("User already exists with username: " + account.getEmail());
+            log.error("User already exists with this email address: " + LocalDateTime.now());
+            throw new RuntimeException("User already exists with this email address: " + account.getEmail());
         }
 
     }
@@ -85,7 +89,7 @@ public class AccountServiceImp implements AccountService {
             this.accountRepository.save(account);
             return account.getPaymentMethods();
         }
-
+        log.error("User doesn't exists at: " + LocalDateTime.now());
         return null;
     }
 
@@ -94,6 +98,8 @@ public class AccountServiceImp implements AccountService {
         if (account != null) {
            return account.getPreferredPayment().toString();
         }
+
+        log.error("User doesn't exists at: " + LocalDateTime.now());
         return null;
     }
 
@@ -109,8 +115,13 @@ public class AccountServiceImp implements AccountService {
                         .filter(paymentMethod -> paymentMethod.getPaymentType().toString().equals(preferredType)).findFirst();
 
                 return preferredMethod.isPresent() ? preferredMethod.get() : null;
+            } else {
+                log.error("User payment methods is null : " + LocalDateTime.now());
             }
+        } else {
+            log.error("User doesn't exists : " + LocalDateTime.now());
         }
+
         return null;
     }
 

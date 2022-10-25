@@ -13,7 +13,8 @@ public class RouterValidator {
             "/api/authentication/authenticate",
             "/api/authentication/validateUser",
             "/api/authentication/authorizedUser",
-            "/api/property/getAll"
+            "/api/property/getAll",
+            "/api/property/available"
     );
     public Predicate<ServerHttpRequest> isSecured =
             request -> openApiEndpoints
