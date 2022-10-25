@@ -11,15 +11,9 @@ import edu.miu.property.model.Property;
 import edu.miu.property.repository.PropertyRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.data.geo.Distance;
-import org.springframework.data.geo.GeoResults;
-import org.springframework.data.geo.Metrics;
-import org.springframework.data.geo.Point;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.NearQuery;
-import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -32,13 +26,10 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-@Service @CacheConfig(cacheNames = {"Property"})
+@Service
 public class PropertyServiceImpl implements Propertyservice {
 
     private AmazonS3 amazonS3;
-
-    @Autowired
-    private MongoTemplate mongoTemplate;
 
     public PropertyServiceImpl(AmazonS3 amazonS3) {
         this.amazonS3 = amazonS3;
@@ -53,7 +44,7 @@ public class PropertyServiceImpl implements Propertyservice {
 //        return "property added";
 //    }
 
-    public String add(PropertyRequest propertyRequest, List<MultipartFile> images, Double latitude, Double longitude) {
+    public Property add(PropertyRequest propertyRequest, List<MultipartFile> images, Double latitude, Double longitude) {
         Double location[] = new Double[2];
         location[0] = longitude;
         location[1] = latitude;
@@ -71,18 +62,25 @@ public class PropertyServiceImpl implements Propertyservice {
                 .images(imageUrls).build();
 
         propertyRepo.save(p);
-        return "Property saved";
+        return p;
 
     }
-
-    public String update(ReservationStatusUpdate reservationStatusUpdate) {
+//    @CacheEvict
+//    @CachePut
+    public ReservationResponse update(ReservationStatusUpdate reservationStatusUpdate) {
         Property p = propertyRepo.findById(reservationStatusUpdate.getId()).get();
         p.setStatus(!p.getStatus());
         propertyRepo.save(p);
-        return "updated";
+        ReservationResponse response = ReservationResponse.builder()
+                .propertyTitle(p.getTitle())
+                .propertyName(p.getPropertyName())
+                .userEmail(p.getUserEmail())
+                .status(p.getStatus())
+                .price(p.getPrice()).build();
+        return response;
     }
 
-    @Cacheable
+//    @Cacheable
     public ReservationResponse getProperty(String id) {
         Property p = propertyRepo.findById(id).get();
 
@@ -135,7 +133,8 @@ public class PropertyServiceImpl implements Propertyservice {
     }
 
     @Override
-    public String updateProperty(UpdateDto updateDto) {
+//    @CacheEvict
+    public ReservationResponse updateProperty(UpdateDto updateDto) {
         String proId = updateDto.getId();
         Property property = propertyRepo.findById(proId).get();
 
@@ -152,7 +151,14 @@ public class PropertyServiceImpl implements Propertyservice {
                 .build();
 
         propertyRepo.save(p);
-        return "Property updated";
+
+        ReservationResponse response = ReservationResponse.builder()
+                .propertyTitle(p.getTitle())
+                .propertyName(p.getPropertyName())
+                .userEmail(p.getUserEmail())
+                .status(p.getStatus())
+                .price(p.getPrice()).build();
+        return response;
     }
 
     @Override
@@ -180,17 +186,7 @@ public class PropertyServiceImpl implements Propertyservice {
     }
 
     @Override
-    public List<Property> getNearByAvailable(Point location) {
-        List<Property> properties = new ArrayList<>();
-        //location = new Point(-73.99171, 40.738868);
-
-        Query getAvailable = new Query(Criteria.where("status").is(false));
-        NearQuery getNear = NearQuery.near(location).maxDistance(new Distance(10, Metrics.MILES));
-        getNear.query(getAvailable);
-
-        GeoResults<Property> nearProperties = mongoTemplate.geoNear(getNear, Property.class);
-        nearProperties.forEach(p -> properties.add(p.getContent()));
-
-        return properties;
+    public List<Property> getPropertyByEmail(String userEmail) {
+        return propertyRepo.findByUserEmail(userEmail);
     }
 }
