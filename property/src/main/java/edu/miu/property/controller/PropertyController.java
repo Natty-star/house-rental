@@ -63,12 +63,6 @@ public class PropertyController {
     }
 
 
-//    @PostMapping("/add")
-//    public String add(@RequestBody Property property){
-//
-//        return propertyService.add(property);
-//    }
-
     @GetMapping("/{id}")
     public ReservationResponse getProperty(@PathVariable String id){
 //        System.out.println();
