@@ -1,10 +1,7 @@
 package edu.miu.payment.service;
 
 
-import edu.miu.payment.model.PaymentMethod;
-import edu.miu.payment.model.PaymentRequest;
-import edu.miu.payment.model.PaymentType;
-import edu.miu.payment.model.QueueConstants;
+import edu.miu.payment.model.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -29,7 +26,7 @@ public class PaymentService {
     private Map<String, String> paymentMap;
 
     @Autowired
-    private KafkaTemplate<String, String> kafkaTemplate;
+    private KafkaTemplate<String, LogObject> kafkaTemplate;
 
     public String processPayment(PaymentRequest paymentRequest){
         log.info("success" + paymentRequest);
@@ -85,18 +82,25 @@ public class PaymentService {
                             paymentRequest.getReservationId(),
                             paymentRequest.getPaymentMethod().getPaymentType()
                     );
-                    this.kafkaTemplate.send(QueueConstants.TOPIC_NAME,String.format("Payment made by email %s, with reservation ID %s, and Payment Type %s was successful",
+
+                    this.kafkaTemplate.send(QueueConstants.TOPIC_NAME, new LogObject(
+                            "success",
                             paymentRequest.getEmail(),
                             paymentRequest.getReservationId(),
-                            paymentRequest.getPaymentMethod().getPaymentType()));
+                            paymentRequest.getPaymentMethod().getPaymentType().toString()
+                    ));
+
                 } else {
                     log.warn("Error has occurred with paymentType {}, user with email {}",
                             paymentRequest.getPaymentMethod().getPaymentType(),
                             paymentRequest.getEmail()
                     );
-                    this.kafkaTemplate.send(QueueConstants.TOPIC_NAME,String.format("Error has occurred with paymentType %s, user with email %s",
-                            paymentRequest.getPaymentMethod().getPaymentType(),
-                            paymentRequest.getEmail()));
+                    this.kafkaTemplate.send(QueueConstants.TOPIC_NAME, new LogObject(
+                            "error",
+                            paymentRequest.getEmail(),
+                            paymentRequest.getReservationId(),
+                            paymentRequest.getPaymentMethod().getPaymentType().toString()
+                    ));
                 }
             });
         }

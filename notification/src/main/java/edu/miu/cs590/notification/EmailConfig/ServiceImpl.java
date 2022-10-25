@@ -45,11 +45,11 @@ public class ServiceImpl implements EmailService{
             helper.setText(message, html);
 
             sender.send(zmessage);
-            log.info("email sent to {}",to);
+            log.info("Email sent successfully");
 
         } catch (MessagingException e) {
 
-            log.error("error sending email", e);
+            log.error("error occurred while sending email");
             throw new RuntimeException(e);
         }
 
