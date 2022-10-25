@@ -8,6 +8,7 @@ import edu.miu.property.model.Address;
 import edu.miu.property.model.Property;
 import edu.miu.property.service.PropertyServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.geo.Point;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -87,6 +88,11 @@ public class PropertyController {
     @GetMapping("/available")
     public List<Property> getAvailable(){
         return propertyService.getAvailable();
+    }
+
+    @GetMapping("/nearby")
+    public List<Property> getNearAvailable(@RequestBody Point location){
+        return propertyService.getNearByAvailable(location);
     }
 
 

@@ -12,6 +12,14 @@ import edu.miu.property.repository.PropertyRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.geo.Distance;
+import org.springframework.data.geo.GeoResults;
+import org.springframework.data.geo.Metrics;
+import org.springframework.data.geo.Point;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.NearQuery;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -28,6 +36,9 @@ import java.util.List;
 public class PropertyServiceImpl implements Propertyservice {
 
     private AmazonS3 amazonS3;
+
+    @Autowired
+    private MongoTemplate mongoTemplate;
 
     public PropertyServiceImpl(AmazonS3 amazonS3) {
         this.amazonS3 = amazonS3;
@@ -166,5 +177,20 @@ public class PropertyServiceImpl implements Propertyservice {
             }
         }
         return available;
+    }
+
+    @Override
+    public List<Property> getNearByAvailable(Point location) {
+        List<Property> properties = new ArrayList<>();
+        //location = new Point(-73.99171, 40.738868);
+
+        Query getAvailable = new Query(Criteria.where("status").is(false));
+        NearQuery getNear = NearQuery.near(location).maxDistance(new Distance(10, Metrics.MILES));
+        getNear.query(getAvailable);
+
+        GeoResults<Property> nearProperties = mongoTemplate.geoNear(getNear, Property.class);
+        nearProperties.forEach(p -> properties.add(p.getContent()));
+
+        return properties;
     }
 }
