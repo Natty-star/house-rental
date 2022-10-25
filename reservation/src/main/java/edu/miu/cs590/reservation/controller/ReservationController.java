@@ -1,13 +1,12 @@
 package edu.miu.cs590.reservation.controller;
 
-import edu.miu.cs590.reservation.config.KafkaTopic;
-import edu.miu.cs590.reservation.dto.NotificationRequest;
+
 import edu.miu.cs590.reservation.dto.ReservationRequest;
 import edu.miu.cs590.reservation.model.Reservation;
 import edu.miu.cs590.reservation.service.ReservationService;
-import org.apache.catalina.LifecycleState;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,15 +17,12 @@ public class ReservationController {
     @Autowired
     private ReservationService reservationService;
 
-//    @Autowired
-//    KafkaTemplate<String,NotificationRequest> kafkaTemplate;
-//
-//    private static final String TOPIC = "natty";
 
+    //create reservation
     @PostMapping
-    public String create(@RequestBody ReservationRequest reservationRequest){
-
-        return  reservationService.create(reservationRequest);
+    public ResponseEntity<?> create(@RequestBody ReservationRequest reservationRequest){
+         String resp = reservationService.create(reservationRequest);
+         return  new ResponseEntity<>(resp, HttpStatus.OK);
     }
 
     @GetMapping("/{userEmail}")
@@ -34,11 +30,11 @@ public class ReservationController {
         return reservationService.getByUser(userEmail);
     }
 
-//    @PostMapping("/publish")
-//    public String testKafka(@RequestBody NotificationRequest notificationRequest){
-//        kafkaTemplate.send(TOPIC,notificationRequest);
-//        return "Published Successfully";
-//    }
+    @PostMapping("/checkout/{id}")
+    public String checkout(@PathVariable String id){
+        return reservationService.checkout(id);
+    }
+
 
 
 
