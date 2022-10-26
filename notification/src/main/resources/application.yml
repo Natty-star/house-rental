@@ -5,6 +5,7 @@ mail:
   username: estoreservice6@gmail.com
   password: Abcd.1234
   port: 587
+  debug: false
   properties:
     mail:
       smtp:

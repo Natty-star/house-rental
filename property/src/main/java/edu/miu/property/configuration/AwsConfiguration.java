@@ -6,14 +6,22 @@ import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 @Configuration
 public class AwsConfiguration {
+
+    @Value("${AWS_S3_ACCESS_KEY}")
+    private String accessKey;
+
+    @Value("${AWS_S3_SECRET_KEY}")
+    private String secretKey;
+
     public AWSCredentials credentials() {
         AWSCredentials credentials = new BasicAWSCredentials(
-                "AKIASFFP5LPDNXASUOEA",
-                "us9rE8SCfJ8Pyu68fU0MdJOh9ENvAwoonuVLrGwb"
+                accessKey,
+                secretKey
         );
         return credentials;
     }
