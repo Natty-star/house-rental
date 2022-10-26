@@ -17,7 +17,7 @@ spec:
       containers:
       - name: notification
         image: nattystar/notification:v1
-        imagePullPolicy: "IfNotPresent"
+        imagePullPolicy: "Always"
         ports:
         - containerPort: 8087 # port to access the app in the container 
 ---
