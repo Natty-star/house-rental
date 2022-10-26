@@ -15,7 +15,7 @@ spec:
       containers:
         - name: auth-service
           image: nattystar/authentication:v1
-          imagePullPolicy: "Always"
+          imagePullPolicy: Always
           ports:
             - containerPort: 8082
           env:
