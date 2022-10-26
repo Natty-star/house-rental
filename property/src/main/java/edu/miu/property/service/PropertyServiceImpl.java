@@ -10,6 +10,7 @@ import edu.miu.property.dto.UpdateDto;
 import edu.miu.property.model.Property;
 import edu.miu.property.repository.PropertyRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
@@ -28,6 +29,11 @@ import java.util.List;
 
 @Service
 public class PropertyServiceImpl implements Propertyservice {
+
+
+    @Value("${AWS_S3_BUCKET_NAME}")
+    private String buketName;
+
 
     private AmazonS3 amazonS3;
 
@@ -111,13 +117,13 @@ public class PropertyServiceImpl implements Propertyservice {
         metaData.setContentType(file.getContentType());
 
         try {
-            amazonS3.putObject("propertymanagmentportal", key, file.getInputStream(), metaData);
+            amazonS3.putObject("mwa-uploads", key, file.getInputStream(), metaData);
         } catch (IOException e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "An exception occured while uploading the file");
         }
 
-        amazonS3.setObjectAcl("propertymanagmentportal", key, CannedAccessControlList.PublicRead);
-        URL url = amazonS3.getUrl("propertymanagmentportal", key);
+//        amazonS3.setObjectAcl(buketName, key, CannedAccessControlList.PublicRead);
+        URL url = amazonS3.getUrl("mwa-uploads", key);
 
         return url.toString();
     }
