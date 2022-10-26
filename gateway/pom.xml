@@ -10,7 +10,7 @@
     </parent>
     <groupId>cs590</groupId>
     <artifactId>gateway</artifactId>
-    <version>v2</version>
+<!--    <version>v2</version>-->
     <name>gateway</name>
     <description>gateway-service</description>
     <properties>

@@ -10,7 +10,7 @@
     </parent>
     <groupId>cs590</groupId>
     <artifactId>account</artifactId>
-    <version>v2</version>
+<!--    <version>v2</version>-->
     <name>account</name>
     <description>account-service</description>
     <properties>

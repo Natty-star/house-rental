@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: gateway-service
-          image: nattystar/gateway:v2
+          image: nattystar/gateway
           imagePullPolicy: Always
           ports:
             - containerPort: 8081

@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: reservation
-          image: nattystar/reservation:v2
+          image: nattystar/reservation
           imagePullPolicy: Always
           ports:
             - containerPort: 8084 # port to access the app in the container

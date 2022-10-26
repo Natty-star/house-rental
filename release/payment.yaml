@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: payment
-        image: nattystar/payment:v2
+        image: nattystar/payment
         imagePullPolicy: Always
         ports:
         - containerPort: 8086 # port to access the app in the container 

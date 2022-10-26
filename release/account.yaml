@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: account-service
-          image: nattystar/account:v2
+          image: nattystar/account
           imagePullPolicy: Always
           ports:
             - containerPort: 8083
