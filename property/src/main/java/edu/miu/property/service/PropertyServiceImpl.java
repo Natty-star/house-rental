@@ -9,6 +9,7 @@ import edu.miu.property.dto.ReservationStatusUpdate;
 import edu.miu.property.dto.UpdateDto;
 import edu.miu.property.model.Property;
 import edu.miu.property.repository.PropertyRepo;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.CacheConfig;
@@ -36,6 +37,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Slf4j
 public class PropertyServiceImpl implements Propertyservice {
 
     @Autowired
@@ -216,7 +218,13 @@ public class PropertyServiceImpl implements Propertyservice {
         getNear.query(getAvailable);
 
         GeoResults<Property> nearProperties = mongoTemplate.geoNear(getNear, Property.class);
-        nearProperties.forEach(p -> properties.add(p.getContent()));
+        if(nearProperties.getContent().size() > 0){
+            log.warn("Found near by properties!");
+            nearProperties.forEach(p -> properties.add(p.getContent()));
+        } else {
+            log.warn("Could not find near by available properties");
+        }
+
 
         return properties;
     }

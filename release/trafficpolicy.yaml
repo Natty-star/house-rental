@@ -12,9 +12,9 @@ spec:
         http1MaxPendingRequests: 25
         maxRequestsPerConnection: 75
     outlierDetection:
-      consecutive5xxErrors: 1
+      consecutive5xxErrors: 10
       interval: 1s
-      baseEjectionTime: 3m
+      baseEjectionTime: 2m
       maxEjectionPercent: 100
 
 ---
@@ -32,9 +32,9 @@ spec:
         http1MaxPendingRequests: 25
         maxRequestsPerConnection: 75
     outlierDetection:
-      consecutive5xxErrors: 1
+      consecutive5xxErrors: 10
       interval: 1s
-      baseEjectionTime: 3m
+      baseEjectionTime: 2m
       maxEjectionPercent: 100
 ---
 apiVersion: networking.istio.io/v1alpha3
@@ -51,9 +51,9 @@ spec:
         http1MaxPendingRequests: 25
         maxRequestsPerConnection: 75
     outlierDetection:
-      consecutive5xxErrors: 1
+      consecutive5xxErrors: 10
       interval: 1s
-      baseEjectionTime: 3m
+      baseEjectionTime: 2m
       maxEjectionPercent: 100
 ---
 apiVersion: networking.istio.io/v1alpha3
@@ -70,7 +70,7 @@ spec:
         http1MaxPendingRequests: 25
         maxRequestsPerConnection: 75
     outlierDetection:
-      consecutive5xxErrors: 1
+      consecutive5xxErrors: 10
       interval: 1s
-      baseEjectionTime: 3m
+      baseEjectionTime: 2m
       maxEjectionPercent: 100
