@@ -9,12 +9,21 @@ import edu.miu.property.dto.ReservationStatusUpdate;
 import edu.miu.property.dto.UpdateDto;
 import edu.miu.property.model.Property;
 import edu.miu.property.repository.PropertyRepo;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.geo.Distance;
+import org.springframework.data.geo.GeoResults;
+import org.springframework.data.geo.Metrics;
+import org.springframework.data.geo.Point;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.NearQuery;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -28,8 +37,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Slf4j
 public class PropertyServiceImpl implements Propertyservice {
 
+    @Autowired
+    private MongoTemplate mongoTemplate;
 
     @Value("${AWS_S3_BUCKET_NAME}")
     private String buketName;
@@ -194,5 +206,26 @@ public class PropertyServiceImpl implements Propertyservice {
     @Override
     public List<Property> getPropertyByEmail(String userEmail) {
         return propertyRepo.findByUserEmail(userEmail);
+    }
+
+    @Override
+    public List<Property> getNearByAvailable(Point location) {
+        List<Property> properties = new ArrayList<>();
+        //location = new Point(-73.99171, 40.738868);
+
+        Query getAvailable = new Query(Criteria.where("status").is(false));
+        NearQuery getNear = NearQuery.near(location).maxDistance(new Distance(10, Metrics.MILES));
+        getNear.query(getAvailable);
+
+        GeoResults<Property> nearProperties = mongoTemplate.geoNear(getNear, Property.class);
+        if(nearProperties.getContent().size() > 0){
+            log.warn("Found near by properties!");
+            nearProperties.forEach(p -> properties.add(p.getContent()));
+        } else {
+            log.warn("Could not find near by available properties");
+        }
+
+
+        return properties;
     }
 }
