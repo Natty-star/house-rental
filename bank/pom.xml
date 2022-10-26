@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>edu.miu</groupId>
 	<artifactId>bank</artifactId>
-<!--	<version>v2</version>-->
+	<version>latest</version>
 	<name>bank</name>
 	<description>bank service</description>
 	<properties>

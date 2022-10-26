@@ -13,7 +13,7 @@ spec:
         app: account-service
     spec:
       containers:
-        - name: account-service
+        - name: account-service:latest
           image: nattystar/account
           imagePullPolicy: Always
           ports:
