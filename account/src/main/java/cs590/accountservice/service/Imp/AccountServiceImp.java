@@ -64,7 +64,7 @@ public class AccountServiceImp implements AccountService {
         Update update = new Update();
         update.set("firstName", newAccount.getFirstName());
         update.set("lastName", newAccount.getLastName());
-        update.set("password", encodedPassword);
+//        update.set("password", encodedPassword);
         update.set("address", newAccount.getAddress());
         update.set("roles", newAccount.getRoles());
         update.set("preferredPayment", newAccount.getPreferredPayment());
