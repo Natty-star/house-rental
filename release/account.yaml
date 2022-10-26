@@ -14,8 +14,8 @@ spec:
     spec:
       containers:
         - name: account-service
-          image: nattystar/account:v1
-          imagePullPolicy: "Always"
+          image: nattystar/account:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 8083
           env: # Setting Environmental Variables
