@@ -13,6 +13,7 @@ import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.geo.Point;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -98,5 +99,9 @@ public class PropertyController {
         return propertyService.getAvailable();
     }
 
+    @GetMapping("/nearby")
+    public List<Property> getNearAvailable(@RequestBody Point location){
+        return propertyService.getNearByAvailable(location);
+    }
 
 }
