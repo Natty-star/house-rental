@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>edu.miu</groupId>
 	<artifactId>property</artifactId>
-	<version>v1</version>
+	<version>latest</version>
 	<name>property</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>

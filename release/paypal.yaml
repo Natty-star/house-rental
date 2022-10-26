@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: paypal
-        image: nattystar/paypal:v1
+        image: nattystar/paypal:latest
         imagePullPolicy: Always
         ports:
         - containerPort: 8090 # port to access the app in the container 

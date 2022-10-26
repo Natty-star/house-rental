@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.cs590</groupId>
     <artifactId>authentication</artifactId>
-    <version>v1</version>
+    <version>latest</version>
     <name>authentication</name>
     <description>spring-app</description>
     <properties>

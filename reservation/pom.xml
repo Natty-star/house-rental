@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>edu.miu.cs590</groupId>
 	<artifactId>reservation</artifactId>
-	<version>v1</version>
+	<version>latest</version>
 	<name>reservation</name>
 	<description>reservation-service</description>
 	<properties>
