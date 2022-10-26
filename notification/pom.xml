@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>edu.miu.cs590</groupId>
 	<artifactId>notification</artifactId>
-	<version>latest</version>
+	<version>v2</version>
 	<name>notification</name>
 	<description>notification</description>
 	<properties>

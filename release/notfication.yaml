@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: notification
-        image: nattystar/notification:latest
+        image: nattystar/notification:v2
         imagePullPolicy: Always
         ports:
         - containerPort: 8087 # port to access the app in the container 

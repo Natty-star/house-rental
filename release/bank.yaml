@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: bank
-        image: nattystar/bank:latest
+        image: nattystar/bank:v2
         imagePullPolicy: Always
         ports:
         - containerPort: 8091 # port to access the app in the container 
