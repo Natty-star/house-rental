@@ -11,8 +11,8 @@ import java.util.List;
 
 public interface Propertyservice {
 
-    String add(PropertyRequest propertyRequest, List<MultipartFile> images, Double latitude, Double longitude);
-    String update(ReservationStatusUpdate ReservationStatusUpdate);
+    Property add(PropertyRequest propertyRequest, List<MultipartFile> images, Double latitude, Double longitude);
+    ReservationResponse update(ReservationStatusUpdate ReservationStatusUpdate);
     ReservationResponse getProperty(String id);
 //    List<Property> getAll();
 
@@ -20,9 +20,11 @@ public interface Propertyservice {
 
     List<String> uploadMultipleFiles(List<MultipartFile> files);
 
-    String updateProperty(UpdateDto updateDto);
+    ReservationResponse updateProperty(UpdateDto updateDto);
 
     List<Property> getReserved();
 
     List<Property> getAvailable();
+
+    List<Property> getPropertyByEmail(String userEmail);
 }
