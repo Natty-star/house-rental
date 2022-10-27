@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mongo-creds
+  namespace: external-services
+type: Opaque
+data:
+  password: YWRtaW4xMjM0Cg==
+  #admin admin1234
+  username: YWRtaW4K 
