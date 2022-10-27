@@ -13,8 +13,8 @@ spec:
         app: account-service
     spec:
       containers:
-        - name: account-service:latest
-          image: nattystar/account
+        - name: account-service
+          image: nattystar/account:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 8083

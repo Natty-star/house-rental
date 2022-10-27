@@ -99,7 +99,7 @@ public class PropertyController {
         return propertyService.getAvailable();
     }
 
-    @GetMapping("/nearby")
+    @PostMapping("/nearby")
     public List<Property> getNearAvailable(@RequestBody Point location){
         return propertyService.getNearByAvailable(location);
     }
