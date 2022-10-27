@@ -79,7 +79,7 @@ public class PropertyController {
     }
 
     @GetMapping("/getByEmail")
-    @Cacheable(value = "propertyByEmail",key = "#userEmail")
+//    @Cacheable(value = "propertyByEmail",key = "#userEmail")
     public List<Property> getPropertyByUserEmail(@RequestParam String userEmail){
         return propertyService.getPropertyByEmail(userEmail);
     }
