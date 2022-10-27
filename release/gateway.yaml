@@ -27,7 +27,7 @@ metadata:
 spec:
   ports:
     - protocol: "TCP"
-      nodePort: 30200
+      # nodePort: 30200
       port: 8081 # Port inside the cluster
       targetPort: 8081 # Port exposed to the outside
   selector:

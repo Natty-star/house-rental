@@ -95,17 +95,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
-      - name: kubectl - Google Cloud GKE cluster - delete.
-        uses: ameydev/gke-kubectl-action@master
-        env:
-          PROJECT_ID: ${{ env.PROJECT_ID }}
-          APPLICATION_CREDENTIALS: ${{ secrets.GKE_SA_KEY }}
-          CLUSTER_NAME: ${{ env.GKE_CLUSTER }}
-          ZONE_NAME: ${{ env.GKE_ZONE }}
-        with:
-          args: delete -f release
-
-      # - name: kubectl - Google Cloud GKE cluster -apply.
+      # - name: kubectl - Google Cloud GKE cluster - delete.
       #   uses: ameydev/gke-kubectl-action@master
       #   env:
       #     PROJECT_ID: ${{ env.PROJECT_ID }}
@@ -113,7 +103,17 @@ jobs:
       #     CLUSTER_NAME: ${{ env.GKE_CLUSTER }}
       #     ZONE_NAME: ${{ env.GKE_ZONE }}
       #   with:
-      #     args: apply -f release
+      #     args: delete -f release
+
+      - name: kubectl - Google Cloud GKE cluster -apply.
+        uses: ameydev/gke-kubectl-action@master
+        env:
+          PROJECT_ID: ${{ env.PROJECT_ID }}
+          APPLICATION_CREDENTIALS: ${{ secrets.GKE_SA_KEY }}
+          CLUSTER_NAME: ${{ env.GKE_CLUSTER }}
+          ZONE_NAME: ${{ env.GKE_ZONE }}
+        with:
+          args: apply -f release
 
 
 
