@@ -5,6 +5,9 @@ spring:
     name: gateway-service
   cloud:
     gateway:
+      httpclient:
+        ssl:
+          useInsecureTrustManager: true
       globalcors:
         cors-configurations:
           '[/**]':
