@@ -30,53 +30,53 @@ jobs:
         server-username: MAVEN_USERNAME
         server-password: MAVEN_PASSWORD
 
-    - name: Build and Push payment
-      run: mvn package dockerfile:push --file paypal/pom.xml
-      env:
-        MAVEN_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-        MAVEN_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+#     - name: Build and Push payment
+#       run: mvn package dockerfile:push --file paypal/pom.xml
+#       env:
+#         MAVEN_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+#         MAVEN_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 
-    - name: Build and Push account
-      run: mvn package dockerfile:push --file account/pom.xml
-      env:
-        MAVEN_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-        MAVEN_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+#     - name: Build and Push account
+#       run: mvn package dockerfile:push --file account/pom.xml
+#       env:
+#         MAVEN_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+#         MAVEN_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 
-    - name: Build and Push authentication
-      run: mvn package dockerfile:push --file authentication/pom.xml
-      env:
-        MAVEN_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-        MAVEN_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+#     - name: Build and Push authentication
+#       run: mvn package dockerfile:push --file authentication/pom.xml
+#       env:
+#         MAVEN_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+#         MAVEN_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 
-    - name: Build and Push bank
-      run: mvn package dockerfile:push --file bank/pom.xml
-      env:
-        MAVEN_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-        MAVEN_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+#     - name: Build and Push bank
+#       run: mvn package dockerfile:push --file bank/pom.xml
+#       env:
+#         MAVEN_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+#         MAVEN_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 
-    - name: Build and Push creditcard
-      run: mvn package dockerfile:push --file creditcard/pom.xml
-      env:
-        MAVEN_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-        MAVEN_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+#     - name: Build and Push creditcard
+#       run: mvn package dockerfile:push --file creditcard/pom.xml
+#       env:
+#         MAVEN_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+#         MAVEN_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 
-    - name: Build and Push gateway
-      run: mvn package dockerfile:push --file gateway/pom.xml
-      env:
-        MAVEN_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-        MAVEN_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+#     - name: Build and Push gateway
+#       run: mvn package dockerfile:push --file gateway/pom.xml
+#       env:
+#         MAVEN_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+#         MAVEN_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 
-    - name: Build and Push notification
-      run: mvn package dockerfile:push --file notification/pom.xml
-      env:
-        MAVEN_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-        MAVEN_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+#     - name: Build and Push notification
+#       run: mvn package dockerfile:push --file notification/pom.xml
+#       env:
+#         MAVEN_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+#         MAVEN_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 
-    - name: Build and Push payment
-      run: mvn package dockerfile:push --file payment/pom.xml
-      env:
-        MAVEN_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-        MAVEN_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+#     - name: Build and Push payment
+#       run: mvn package dockerfile:push --file payment/pom.xml
+#       env:
+#         MAVEN_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+#         MAVEN_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 
     - name: Build and Push property
       run: mvn package dockerfile:push --file property/pom.xml
@@ -84,27 +84,27 @@ jobs:
         MAVEN_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         MAVEN_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 
-    - name: Build and Push reservation
-      run: mvn package dockerfile:push --file reservation/pom.xml
-      env:
-        MAVEN_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-        MAVEN_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+#     - name: Build and Push reservation
+#       run: mvn package dockerfile:push --file reservation/pom.xml
+#       env:
+#         MAVEN_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+#         MAVEN_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 
   Deploy:
     needs: build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
-      - name: kubectl - Google Cloud GKE cluster - delete.
-        uses: ameydev/gke-kubectl-action@master
-        env:
-          PROJECT_ID: ${{ env.PROJECT_ID }}
-          APPLICATION_CREDENTIALS: ${{ secrets.GKE_SA_KEY }}
-          CLUSTER_NAME: ${{ env.GKE_CLUSTER }}
-          ZONE_NAME: ${{ env.GKE_ZONE }}
-        with:
-          args: delete -f release  --ignore-not-found=true
-          # /property.yaml
+#       - name: kubectl - Google Cloud GKE cluster - delete.
+#         uses: ameydev/gke-kubectl-action@master
+#         env:
+#           PROJECT_ID: ${{ env.PROJECT_ID }}
+#           APPLICATION_CREDENTIALS: ${{ secrets.GKE_SA_KEY }}
+#           CLUSTER_NAME: ${{ env.GKE_CLUSTER }}
+#           ZONE_NAME: ${{ env.GKE_ZONE }}
+#         with:
+#           args: delete -f release  --ignore-not-found=true
+#           # /property.yaml
 
       - name: kubectl - Google Cloud GKE cluster -apply.
         uses: ameydev/gke-kubectl-action@master
@@ -114,7 +114,7 @@ jobs:
           CLUSTER_NAME: ${{ env.GKE_CLUSTER }}
           ZONE_NAME: ${{ env.GKE_ZONE }}
         with:
-          args: apply -f release
+          args: apply -f release/property.yaml
 
 
 
