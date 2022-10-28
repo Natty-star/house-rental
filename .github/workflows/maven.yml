@@ -103,8 +103,8 @@ jobs:
           CLUSTER_NAME: ${{ env.GKE_CLUSTER }}
           ZONE_NAME: ${{ env.GKE_ZONE }}
         with:
-          args: delete -f release 
-          # /property.yaml --ignore-not-found=true
+          args: delete -f release  --ignore-not-found=true
+          # /property.yaml
 
       - name: kubectl - Google Cloud GKE cluster -apply.
         uses: ameydev/gke-kubectl-action@master
