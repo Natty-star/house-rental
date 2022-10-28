@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: property
-          image: nattystar/property:latest
+          image: nattystar/property:final1
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8085 # port to access the app in the container
