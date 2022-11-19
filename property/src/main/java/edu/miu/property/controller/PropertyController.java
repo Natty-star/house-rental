@@ -32,6 +32,7 @@ public class PropertyController {
 
 
     @CachePut(value = "property",key = "#reservationStatusUpdate.id")
+
     @PostMapping("/updateStatus")
     public ReservationResponse update(@RequestBody ReservationStatusUpdate reservationStatusUpdate){
         log.info("property status updated!");
@@ -69,6 +70,7 @@ public class PropertyController {
         log.info("propety ${} added!",propertyName);
         return propertyService.add(propertyRequest,images,Double.parseDouble(latitude),Double.parseDouble(longitude));
     }
+
 
 
 

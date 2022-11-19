@@ -5,7 +5,7 @@ name: Mera CICD Pipeline
 
 on:
   push:
-      branches: [ "mera" ]
+    branches: [ "mera" ]
 #   pull_request:
 #     branches: [ "main" ]
 env:
