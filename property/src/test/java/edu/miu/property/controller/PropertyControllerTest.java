@@ -1,8 +1,9 @@
 package edu.miu.property.controller;
 
 
-import edu.miu.property.dto.ReservationResponse;
-import edu.miu.property.service.PropertyServiceImpl;
+import miu.property.controller.PropertyController;
+import miu.property.dto.ReservationResponse;
+import miu.property.service.PropertyServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;

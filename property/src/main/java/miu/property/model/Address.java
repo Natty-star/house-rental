@@ -1,4 +1,4 @@
-package edu.miu.property.model;
+package miu.property.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

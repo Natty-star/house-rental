@@ -1,4 +1,4 @@
-package edu.miu.property.configuration;
+package miu.property.configuration;
 
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;

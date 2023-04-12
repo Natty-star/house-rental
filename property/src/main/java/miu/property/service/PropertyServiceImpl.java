@@ -1,20 +1,15 @@
-package edu.miu.property.service;
+package miu.property.service;
 
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
-import edu.miu.property.dto.PropertyRequest;
-import edu.miu.property.dto.ReservationResponse;
-import edu.miu.property.dto.ReservationStatusUpdate;
-import edu.miu.property.dto.UpdateDto;
-import edu.miu.property.model.Property;
-import edu.miu.property.repository.PropertyRepo;
+import miu.property.dto.PropertyRequest;
+import miu.property.dto.ReservationResponse;
+import miu.property.dto.ReservationStatusUpdate;
+import miu.property.dto.UpdateDto;
+import miu.property.model.Property;
+import miu.property.repository.PropertyRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;

@@ -1,6 +1,6 @@
-package edu.miu.property.dto;
+package miu.property.dto;
 
-import edu.miu.property.model.Address;
+import miu.property.model.Address;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,7 +10,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class PropertyRequest {
+public class UpdateDto {
+    private String id;
     private String propertyName;
     private String title;
     private double price;

@@ -1,10 +1,10 @@
-package edu.miu.property.service;
+package miu.property.service;
 
-import edu.miu.property.dto.PropertyRequest;
-import edu.miu.property.dto.ReservationResponse;
-import edu.miu.property.dto.ReservationStatusUpdate;
-import edu.miu.property.dto.UpdateDto;
-import edu.miu.property.model.Property;
+import miu.property.dto.PropertyRequest;
+import miu.property.dto.ReservationResponse;
+import miu.property.dto.ReservationStatusUpdate;
+import miu.property.dto.UpdateDto;
+import miu.property.model.Property;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;

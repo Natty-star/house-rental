@@ -1,4 +1,4 @@
-package edu.miu.property.dto;
+package miu.property.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

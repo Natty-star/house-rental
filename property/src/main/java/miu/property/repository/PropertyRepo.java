@@ -1,6 +1,6 @@
-package edu.miu.property.repository;
+package miu.property.repository;
 
-import edu.miu.property.model.Property;
+import miu.property.model.Property;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 

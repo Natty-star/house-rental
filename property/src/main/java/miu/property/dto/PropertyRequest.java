@@ -1,21 +1,20 @@
-package edu.miu.property.dto;
+package miu.property.dto;
 
-import edu.miu.property.model.Address;
+import miu.property.model.Address;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ReservationResponse implements Serializable {
+public class PropertyRequest {
     private String propertyName;
-    private String propertyTitle;
+    private String title;
     private double price;
+    private Boolean status;
+    private Address address;
     private String userEmail;
-    private boolean status;
 }

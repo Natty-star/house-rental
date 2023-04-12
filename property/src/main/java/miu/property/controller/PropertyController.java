@@ -1,16 +1,14 @@
-package edu.miu.property.controller;
+package miu.property.controller;
 
-import edu.miu.property.dto.PropertyRequest;
-import edu.miu.property.dto.ReservationResponse;
-import edu.miu.property.dto.ReservationStatusUpdate;
-import edu.miu.property.dto.UpdateDto;
-import edu.miu.property.model.Address;
-import edu.miu.property.model.Property;
-import edu.miu.property.service.PropertyServiceImpl;
+import miu.property.dto.PropertyRequest;
+import miu.property.dto.ReservationResponse;
+import miu.property.dto.ReservationStatusUpdate;
+import miu.property.dto.UpdateDto;
+import miu.property.model.Address;
+import miu.property.model.Property;
+import miu.property.service.PropertyServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.MediaType;
@@ -29,8 +27,8 @@ public class PropertyController {
     @Autowired
     private PropertyServiceImpl propertyService;
 
-
     @CachePut(value = "property",key = "#reservationStatusUpdate.id")
+    // "/api/property/updateStatus"
     @PostMapping("/updateStatus")
     public ReservationResponse update(@RequestBody ReservationStatusUpdate reservationStatusUpdate){
         log.info("property status updated!");
@@ -72,6 +70,7 @@ public class PropertyController {
 
 
     @Cacheable(value = "property",key = "#id")
+    // /api/property/4
     @GetMapping("/{id}")
     public ReservationResponse getProperty(@PathVariable String id){
         return propertyService.getProperty(id);
