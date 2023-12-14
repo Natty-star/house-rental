@@ -17,7 +17,7 @@ public class BankService {
 
     public Mono<String> pay(Bank bank){
         bankRepo.insert(bank);
-        System.out.println("Bank service" + bank);
+        System.out.println("Bank service information" + bank);
         return Mono.just("Saved");
     }
 
